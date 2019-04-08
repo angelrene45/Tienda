@@ -57,7 +57,7 @@ class CarritoController extends Controller
         }else{
             $carrito[$producto->slug]->cantidad=$producto->stock;
             \Session::put('carrito' , $carrito);
-            Flash::warning('Ha excedido el maximo de disponibilidad de articulos')->important(); 
+            Flash::warning('Ha excedido el maximo de disponibilidad de articulos')->important();
         }
 
     	return redirect()->route('carrito.mostrar');
@@ -75,12 +75,12 @@ class CarritoController extends Controller
     	$carrito = \Session::get('carrito');
     	$total = 0;
 
-    	if(count($carrito)){
+    	if(!empty($carrito)){
     		foreach($carrito as $item){
     		$total += $item->precio * $item->cantidad;
     		}
     	}
-    	
+
 
     	return $total;
     }

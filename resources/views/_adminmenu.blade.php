@@ -14,10 +14,10 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            
+
             <!-- BUSCADOR-->
             <form class="navbar-form pull-left" action="{{route('producto.busqueda')}}" method="GET" role="form" autocomplete="off" enctype="multipart/form-data">
-            
+
                 <div class="form-group">
                     <div class="input-group">
                       <input type="text" class="form-control" placeholder="Buscar..." id="buscador" name="buscador">
@@ -39,7 +39,7 @@
                     <li>
                         <a href="{{route('carrito.mostrar')}}"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Carrito</a>
                     </li>
-                    
+
                     <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li class="dropdown">
@@ -70,7 +70,7 @@
                                 </ul>
                             </li>
                         @endif
-                        
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

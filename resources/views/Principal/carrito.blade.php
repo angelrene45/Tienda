@@ -6,7 +6,7 @@
 			<h1><i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras</h1>
 		</div>
 	  <div class="tabla-carrito">
-		@if(count($carrito))
+		@if(!empty($carrito))
 
 		<p>
 			<a href="{{route ('carrito.limpiar')}}" class="btn btn-danger">
@@ -35,26 +35,26 @@
 							<td>{{$item->talla}}</td>
 							<td>{{number_format($item->precio,2)}}</td>
 							<td>
-								<input type="number" 
-										min="1" 
-										max="100"  
-										value="{{$item->cantidad}}" 
-										id="producto_{{$item->id}}" 
+								<input type="number"
+										min="1"
+										max="100"
+										value="{{$item->cantidad}}"
+										id="producto_{{$item->id}}"
 										name=""
 								>
-								<a href="" 
+								<a href=""
 									class="btn btn-warning btn-update-item"
 									data-href="{{route('carrito.actualizar' , $item->slug)}}"
 									data-id="{{$item->id}}"
 								>
 									<i class="glyphicon glyphicon-refresh"></i>
-								</a>	
+								</a>
 							</td>
 							<td>{{number_format($item->precio*$item->cantidad,2)}}</td>
 							<td>
 								<a href="{{route('carrito.eliminar', $item->slug)}}" class="btn btn-danger">
 									<i class="glyphicon glyphicon-remove"></i>
-								</a> 
+								</a>
 							</td>
 						</tr>
 					@endforeach
