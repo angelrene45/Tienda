@@ -1,0 +1,33 @@
+/*estilos pdf*/
+
+body{
+   background-color:#CC10;
+   text-align: center;
+
+   font: normal normal 18px quicksand;  /*fuente*/
+	letter-spacing: 2px; /*separación entre las letras*/
+	text-align: center; /*podemos cambiar por right. Si lo queremos a la izq. borrar esta línea*/
+	text-transform: uppercase; 
+
+
+   	width: 96%;
+	border: 1px solid #DDD;
+	padding: 2%;
+	margin:0 auto;
+	margin-left: 2%;
+}
+
+table{
+	border: 1px solid  #333;
+	width: 100%;
+}
+
+td{
+	padding: 5px;
+	text-align: center;
+}
+
+
+hr{
+	 color: #123455;
+}

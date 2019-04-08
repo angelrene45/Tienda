@@ -1,0 +1,101 @@
+.estilodiv{
+	/*background-color: #F4F4F4;*/	
+}
+
+.imgindex{
+	padding:2px;
+	background:#999;
+	border-radius:20px;
+	-webkit-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	-ms-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	/*La transicion de las imagenes cuando crecer y decrecer*/
+	box-shadow:#999 5px 5px 10px;
+}
+
+/*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
+.imgindex:hover{
+	-webkit-transform:scale(1.1); /*hace que la imagen crezca*/
+	-ms-transform:scale(1.1);	
+}
+
+
+.principaldetalle{
+	width: 96%;
+	min-height: auto;
+	border-radius:20px;
+	/*border: 1px solid #DDD;*/
+	margin:0 auto;
+	margin-left: 2%;
+	margin-top: 50px;	
+
+	background-color:#CC10;
+   	text-align: center;
+
+   	font: normal normal 18px quicksand;  /*fuente*/
+	letter-spacing: 2px; /*separación entre las letras*/
+	text-align: center; /*podemos cambiar por right. Si lo queremos a la izq. borrar esta línea*/
+	text-transform: uppercase; 
+
+}
+
+.boton_carrito{
+	text-decoration: none;
+    padding: 10px;
+    
+    color: #ffffff;
+    background-color: #1A1A1A;
+    border-radius: 8px;
+}
+
+.boton_carrito:hover{
+    color: #ffffff;
+    background-color: #09C;
+  }
+
+
+  .labelstock{
+ 	font-weight: 0; /*en negritas*/
+    font-size:  13px; /*tamaño*/
+	width:90%;
+	font-family: Georgia, "Times New Roman", Times, serif;	
+ }
+
+ .tabla-carrito{
+	background:#fff;
+	border-radius: 1em;
+	margin-bottom: 30px;
+	padding: 1em; 
+
+ }
+
+.tabla-carrito img{
+	width: 100px;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	font-family: 'Lobster Two', cursive;
+}
+
+.busqueda-producto img{
+	width: 280px;
+	height: 250px;
+}
+
+
+
+.busqueda-producto img{
+	padding:2px;
+	background:#999;
+	border-radius:20px;
+	-webkit-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	-ms-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	/*La transicion de las imagenes cuando crecer y decrecer*/
+	box-shadow:#999 5px 5px 10px;
+}
+
+/*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
+.busqueda-producto img:hover{
+	-webkit-transform:scale(1.2); /*hace que la imagen crezca*/
+	-ms-transform:scale(1.2);	
+}
