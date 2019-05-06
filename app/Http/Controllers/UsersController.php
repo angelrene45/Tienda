@@ -8,8 +8,6 @@ use Laracasts\Flash\Flash;
 use Illuminate\Validation\Rule;
 
 
-
-
 class UsersController extends Controller
 {
     /**
@@ -20,7 +18,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::paginate(7);
-       
+
         return view('Admin.users.index')->with(['users' => $users]);
 
     }
@@ -97,7 +95,7 @@ class UsersController extends Controller
         'email' => Rule::unique('users')->ignore($user->id),
         ]);
 
-        
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->type = $request->type;

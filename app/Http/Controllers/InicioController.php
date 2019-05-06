@@ -27,9 +27,9 @@ class InicioController extends Controller
         $masvendido = Producto::where('vendido' , '>=' , $max)->get();
 
         $masvendido->each(function($masvendido){
-            $masvendido->imagenes;    
+            $masvendido->imagenes;
         });
-        
+
     	return view('index')->with(['productos'=>$productos , 'masvendido' => $masvendido]);
     }
 
@@ -55,29 +55,36 @@ class InicioController extends Controller
 
         $producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
 
-        $pdf = PDF::loadView('Productos.vistapdf' , ['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas ]);
-        
-            return $pdf->download('Productoprint.pdf');
+				//$pdf = PDF::loadView('invoice');
+				//return $pdf->download('invoice.pdf');
+
+				$data = ['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas ];
+
+
+        $pdf = \PDF::loadView('Productos.vistapdf' , $data);
+
+				//return view('Productos.vistapdf')->with(['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas ]);
+        return $pdf->download('Productoprint.pdf');
     }
 
     public function busqueda(Request $request){
 
         $palabra = $request->buscador;
-        
+
             $productos = Producto::search($request->buscador)->paginate(9);
             $productos->each(function($productos){
                 $productos->categoria;
                 $productos->imagenes;
             });
 
-        
+
 
         return view('Principal.productos')->with(['productos' => $productos , 'palabra' => $palabra] );
     }
 
 }
 
-		
+
 //$productos = Producto::find(1);
 //$productos->categoria;
 //$productos->tallas;
