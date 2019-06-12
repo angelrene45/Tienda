@@ -1,25 +1,30 @@
 @extends('layouts.app')
 
   @section('content')
-
-    
-    <div class="container">
       <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
           <div class="panel panel-default">
               <!-- Default panel contents -->
               <div class="panel-heading">Editar producto</div>
               <div class="panel-body">
 
-      
+
               <form action="{{ route('products.update' ,['producto' => $producto->id]) }}" method="POST" role="form" autocomplete="off" enctype="multipart/form-data" >
                {{ csrf_field() }}
                {{ method_field('PUT') }}
 
-       
+           <div class="form-group{{ $errors->has('Codigo') ? ' has-error' : '' }}">
+               <label for="">Codigo</label>
+               <input type="text" class="form-control" id="Codigo" name="Codigo"  placeholder="Input field" value="{{ $producto->codigo or old ('Codigo') }}" required autofocus >
+               @if ($errors->has('Codigo'))
+                 <span class="help-block">
+                   <strong>{{ $errors->first('Codigo') }}</strong>
+                 </span>
+             @endif
+           </div>
            <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                <label for="">Nombre</label>
-               <input type="text" class="form-control" id="Nombre" name="Nombre"  placeholder="Input field" value="{{ $producto->nombre or old ('Nombre') }}" required autofocus pattern="[a-zA-Z0-9 ]+">
+               <input type="text" class="form-control" id="Nombre" name="Nombre"  placeholder="Input field" value="{{ $producto->nombre or old ('Nombre') }}" required autofocus >
                @if ($errors->has('Nombre'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Nombre') }}</strong>
@@ -28,7 +33,7 @@
            </div>
            <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                <label for="">Descripcion</label>
-               <input type="text" class="form-control" id="Descripcion" name="Descripcion"  placeholder="Input field" value="{{ $producto->descripcion or old ('Descripcion') }}" required pattern="[a-zA-Z0-9 ]+">
+               <textarea class="form-control textarea-content" rows="5" id="Descripcion" name="Descripcion"  placeholder="Escriba la descripcion del producto">{{ $producto->descripcion or old('Descripcion') }}</textarea>
                @if ($errors->has('Descripcion'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Descripcion') }}</strong>
@@ -37,14 +42,46 @@
            </div>
            <div class="form-group{{ $errors->has('Precio') ? ' has-error' : '' }}">
                <label for="">Precio</label>
-               <input type="number" class="form-control" id="Precio" name="Precio"  placeholder="Input field" value="{{ $producto->precio or old ('Precio') }}" required>
+               <input type="number" step="0.01" class="form-control" id="Precio" name="Precio"  placeholder="Input field" value="{{ $producto->precio or old ('Precio') }}" required>
                @if ($errors->has('Precio'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Precio') }}</strong>
                  </span>
              @endif
            </div>
-           
+
+           <div class="form-group">
+             <label>Moneda</label>
+             <select class="form-control chosen-user" id="Moneda" name="Moneda">
+                         <option value="USD"
+                         @if($producto->moneda == 'USD')
+                             selected='selected'
+                           @endif
+                         >
+                           USD
+                         </option>
+                         <option value="MXN"
+                           @if($producto->moneda == 'MXN')
+                             selected='selected'
+                           @endif
+                           >
+                           MXN
+                         </option>
+                         <option value="EUR"
+                           @if($producto->moneda == 'EUR')
+                             selected='selected'
+                           @endif
+                           >
+                           EUR
+                         </option>
+                   </select>
+                   @if ($errors->has('Moneda'))
+                     <span class="help-block">
+                       <strong>{{ $errors->first('Moneda') }}</strong>
+                     </span>
+                  @endif
+           </div>
+
            <div class="form-group{{ $errors->has('Stock') ? ' has-error' : '' }}">
                <label for="">Stock</label>
                <input type="number" class="form-control" id="Stock" name="Stock" placeholder="Input field" value="{{ $producto->stock or old ('Stock') }}" required>
@@ -60,8 +97,8 @@
                 <select class="form-control chosen-select2" id="Categoria" name="Categoria" required >
                   @foreach($categorias as $categoria)
                     <option value="{{$categoria->id}}"
-                      @if($producto->categoria_id == $categoria->id) 
-                        selected='selected' 
+                      @if($producto->categoria_id == $categoria->id)
+                        selected='selected'
                       @endif
                     >
                       {{$categoria->nombre}}
@@ -75,33 +112,18 @@
              @endif
             </div>
 
-            <div class="form-group">
-                <label for="">Tallas</label>
-                <br>
-                 <select multiple class="form-control chosen-select" name="tallas[]">
-                 @foreach($tallas as $talla)
-                    <option value="{{$talla->id}}"
-                    @foreach($misTallas as $miTalla)
-                      @if($miTalla->id == $talla->id)
-                        selected='selected'
-                      @endif
-                    @endforeach
-                    >{{ $talla->talla }}
-                    </option>
-                 @endforeach  
-                 </select>         
-            </div>
+
 
         <hr size="10" />
               <div class="form-group">
                 <label>Imagenes del producto</label>
                 <br>
                 @foreach($imagenes as $imagen)
-                 
-                  
-                  <img src="{{ URL::to('/') }}/images/productos/{{$imagen->imagen}}" class="img-rounded" width="280" height="230" > 
 
-                 
+
+                  <img src="{{ URL::to('/') }}/images/productos/{{$imagen->imagen}}" class="img-rounded" width="280" height="230" >
+
+
                 @endforeach
 
               </div>
@@ -113,7 +135,7 @@
               </div>
           @endif
 
-        
+
 
             @if($imagenes->count() == 0)
               <div class="form-group{{ $errors->has('imagen') ? ' has-error' : '' }} ">
@@ -122,7 +144,7 @@
                  <span class="help-block">
                    <strong>No se puden subir mas de 3 imagenes</strong>
                  </span>
-             @endif  
+             @endif
               </div>
             @endif
 
@@ -132,18 +154,16 @@
        </form>
 
 
-     
-      
+
+
 
        </div>
-          
-      </div> 
+
+      </div>
 
 
     </div>
   </div>
-       
-</div><!-- /.container -->
 
 @endsection
 
@@ -161,8 +181,3 @@
         });
         </script>
 @endsection
-
-
-
-
-       

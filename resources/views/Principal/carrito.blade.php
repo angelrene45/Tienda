@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-	<div class="container text-center">
-		<div class="page-header">
-			<h1><i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras</h1>
-		</div>
+		<h1 class="text-center"><i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras</h1>
 	  <div class="tabla-carrito">
 		@if(!empty($carrito))
 
-		<p>
+		<p class="text-center">
 			<a href="{{route ('carrito.limpiar')}}" class="btn btn-danger">
 				Limpiar carrito <i class="glyphicon glyphicon-trash"></i>
 			</a>
@@ -61,7 +58,7 @@
 				</tbody>
 			</table>
 
-			<h3>
+			<h3 class="text-center">
 				<span class="label label-success">
 					Total: ${{number_format($total,2)}}
 				</span>
@@ -69,10 +66,10 @@
 
 		</div>
 		@else
-			<h3><span class="label label-warning">No hay productos en el carrito :(</span></h3>
+			<h3 class="text-center"><span class="label label-warning">No hay productos en el carrito :(</span></h3>
 		@endif
 		<hr>
-		<p>
+		<p class="text-center">
 			<a href="{{route('inicio')}}" class="btn btn-primary">
 				<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Seguir comprando
 			</a>
@@ -81,5 +78,4 @@
 			</a>
 		</p>
 	  </div>
-	</div>
 @endsection

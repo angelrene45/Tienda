@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 	@section('carrusel')
-	<br><br>
-	<!-- Header Carousel -->
+<!--
+
     <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
+
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
 
-        <!-- Wrapper for slides -->
+
         <div class="carousel-inner">
             <div class="item active">
                 <div class="fill">
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <!-- Controls -->
+
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
             <span class="icon-prev"></span>
         </a>
@@ -44,57 +44,81 @@
         </a>
     </header>
 
+	-->
+
 	@endsection
-	
+
     @section('principal')
 
-     <!-- Page Content -->
-    <div class="container">
-
-        <!-- Portfolio Section -->
-        <div class="row">
+				<div class="row">
             <div class="col-md-12">
-                <h2 class="page-header">Ultimos articulos</h2>
+                <h2 class="labeltitle">Ultimos articulos</h2>
             </div>
-			
-			
-            @foreach($productos as $producto)
-            <div class="col-md-4 col-sm-6">
-            <div class="estilodiv">
-            
-                <a href="{{route('producto.descripcion',['id' => $producto->id , 'slug' => $producto->slug])}}">
-                	@foreach($producto->imagenes as $imagen)
-                	<center>
-                    <img class="imgindex" src="{{ URL::to('/') }}/images/productos/{{$imagen->imagen}}" width="300" height="320"  alt="">
-                    </center>
-                    @break
-                   	@endforeach
-                </a>
-                    <h3 align="center">{{$producto->nombre}}</h3>
-                	<h4 align="center">${{$producto->precio}}</h4> 
-                	
-            </div>
-            </div>
-            @endforeach
-            
-        </div>
-        <!-- /.row -->
+				</div>
 
-        
+
+            @foreach($productos as $producto)
+						<form method="POST" action="{{route('carrito.add' , $producto->slug)}}">
+							{{ csrf_field() }}
+							{{ method_field('GET') }}
+							<div class="row imgindex" >
+	            <div class="col-sm-3 col-md-3">
+
+
+	                <a href="{{route('producto.descripcion',['id' => $producto->id , 'slug' => $producto->slug])}}">
+										@if(count($producto->imagenes)==0)
+											<img class="center-block" height="180px" width="200px" src="{{ URL::to('/') }}/images/image-unavailable.png"   alt="">
+										@else
+		                	@foreach($producto->imagenes as $imagen)
+		                    <img class="center-block" height="180px" width="200px" src="{{ URL::to('/') }}/images/productos/{{$imagen->imagen}}"   alt="">
+		                    @break
+		                  @endforeach
+										@endif
+	                </a>
+							 </div>
+
+							 <h3 class="labeltitle center-block">{{$producto->nombre}}</h3>
+							 <span class="labelstock center-block">Existencia: {{$producto->stock}}</span>
+							 <br>
+
+							 <div class="col-sm-9 col-md-9">
+									<table class="table table-condensed">
+									  <tr>
+									    <th>Codigo</th>
+									    <th>Precio</th>
+									    <th>Cantidad</th>
+											<th></th>
+									  </tr>
+									  <tr>
+									    <td>{{$producto->codigo}}</td>
+									    <td>${{number_format($producto->precio,2)}}
+												<span class="label
+													@if($producto->moneda == "MXN")
+														label-success
+													@elseif($producto->moneda == "USD")
+														label-danger
+													@else
+														label-info
+													@endif
+													">{{$producto->moneda}}
+												</span>
+											</td>
+									    <td><input id="cantidad" name="cantidad" type="number" value="1" min="1" max="{{$producto->stock}}"></td>
+											<td>
+												<button type="submit" class="boton_carrito btn-add-car">Añadir al carrito</button>
+											</td>
+									  </tr>
+									</table>
+								</div>
+							</div>
+						</form>
+						<br><br>
+            @endforeach
+
+
 
         <hr>
 
-        <!-- Call to Action Section -->
-        <div class="well">
-            <div class="row">
-                <div class="col-md-8">
-                    <p>Encuentra todos lo productos que buscas a un precio increible!</p>
-                </div>
-                <div class="col-md-4">
-                    <a class="btn btn-lg btn-default btn-block" href="{{route('producto.busqueda')}}">Presiona aqui!</a>
-                </div>
-            </div>
-        </div>
 
         <hr>
 
@@ -102,12 +126,23 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Todos los derechos reservados &copy; Tienda online 2017</p>
+                    <p>Todos los derechos reservados &copy; Shel Seguridad e Higiene</p>
                 </div>
             </div>
         </footer>
 
-    </div>
+				<!-- Call to Action Section -->
+        <div class="well">
+            <div class="row">
+                <div class="col-md-8">
+                    <p>Encuentra todos lo productos que buscas a un precio increible!</p>
+                </div>
+                
+            </div>
+        </div>
 
-    
+@endsection
+
+@section('scripts')
+<script src=" {{ asset('js/funcionesajax.js') }}"></script>
 @endsection

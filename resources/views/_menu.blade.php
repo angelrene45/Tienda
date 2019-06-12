@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{{route('inicio')}}">Tienda</a>
-             
+
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -19,7 +19,7 @@
 
             <!-- BUSCADOR-->
             <form class="navbar-form pull-left" action="{{route('producto.busqueda')}}" method="GET" role="form" autocomplete="off" enctype="multipart/form-data">
-            
+
                 <div class="form-group">
                     <div class="input-group">
                       <input type="text" class="form-control" placeholder="Buscar..." id="buscador" name="buscador">
@@ -33,7 +33,7 @@
 
 
             <ul class="nav navbar-nav navbar-left">
-                
+
                 <li>
                     <a href="{{route('producto.busqueda')}}">Productos</a>
                 </li>
@@ -64,7 +64,7 @@
                                    <li><a href="{{ route('register') }}">Registrarse</a></li>
                                 </ul>
                             </li>
-                              
+
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -86,11 +86,10 @@
                                 </ul>
                             </li>
                         @endif
-                        
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
-

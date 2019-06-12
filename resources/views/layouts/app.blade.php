@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{ asset('css/miestilo.css')}} " >
     <!-- Custom styles for this template -->
     <!-- <link href="starter-template.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css')}} " >
+
   </head>
 
 
@@ -27,54 +29,41 @@
     <div id="app">
 
        @if (Auth::guest())
-            @include('_menu') 
-       @else
-            @if(Auth::user()->type == 'admin')
-                
-                 @include('_adminmenu') 
+            @include('_menu_client')
+       @elseif(Auth::user()->type == 'admin')
+             @include('_menu_admin')
+       @elseif(Auth::user()->type == 'member')
+            @include('_menu_client')
 
-            @else
-                @include('_menu')
+       @elseif(Auth::user()->type == 'purchaser')
+            @include('_menu_client')
 
-            @endif
        @endif
 
-       @yield('carrusel')
-
-       @yield('principal')
-        
-        
         <br>
         <br>
         <br>
         <br>
 
-        <div class="container">
-         <div class="row">
-           <div class="col-md-10 col-md-offset-1">
-                @include('flash::message')
-           </div>
-         </div>
-        </div>
 
-        @yield('content')
 
     </div>
+
 
     <!-- Scripts -->
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src=" {{ asset('jquery/jquery.min.js') }}"></script>
+        <script src=" {{ asset('jquery/jquery-3.4.1.min.js') }}"></script>
         <script src=" {{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 
         <!-- script para plugin chosen para estilos en inputs-->
         <script src="{{ asset('plugins/chosen/chosen.jquery.js')}} "></script>
         <script src=" {{ asset('js/carrito.js') }}"></script>
-
+        <script src=" {{ asset('js/sidebar.js') }}"></script>
+        <script src=" {{ asset('js/sweetalert.min.js') }}"></script>
         @yield('scripts')
 
-</html>
+    </body>
 
+</html>

@@ -27,9 +27,9 @@ class CarritoController extends Controller
 
     	$carrito = \Session::get('carrito');
     	$producto->cantidad = 1;
-        $producto->talla = $request->talla;
+      $producto->talla = $request->talla;
     	$producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
-    	$carrito[$producto->slug] = $producto;
+    	$carrito[$producto->id] = $producto;
 
     	\Session::put('carrito' , $carrito);
 
@@ -37,11 +37,31 @@ class CarritoController extends Controller
     	return redirect()->route('carrito.mostrar');
     }
 
+    public function add(Producto $producto, Request $request){
+
+      if($request->ajax()){
+        $carrito = \Session::get('carrito');
+      	$producto->cantidad = $request->cantidad;
+        //$producto->talla = $request->talla;
+      	$producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
+      	$carrito[$producto->id] = $producto;
+
+        \Session::put('carrito' , $carrito);
+
+        return response()->json([
+          'total' => count(\Session::get('carrito')),
+          'message' => 'Añadido correctamente'
+        ]);
+      }
+
+
+    }
+
     //quitar item
 
     public function eliminar(Producto $producto){
     	$carrito = \Session::get('carrito');
-    	unset($carrito[$producto->slug]);
+    	unset($carrito[$producto->id]);
     	\Session::put('carrito' , $carrito);
 
     	return redirect()->route('carrito.mostrar');
@@ -50,15 +70,14 @@ class CarritoController extends Controller
     //actualizar item
     public function actualizar(Producto $producto, $cantidad){
     	$carrito = \Session::get('carrito');
-
-        if($cantidad <= $producto->stock ){
-    	$carrito[$producto->slug]->cantidad=$cantidad;
-    	\Session::put('carrito' , $carrito);
-        }else{
-            $carrito[$producto->slug]->cantidad=$producto->stock;
-            \Session::put('carrito' , $carrito);
-            Flash::warning('Ha excedido el maximo de disponibilidad de articulos')->important();
-        }
+      if($cantidad <= $producto->stock){
+        	$carrito[$producto->id]->cantidad=$cantidad;
+        	\Session::put('carrito' , $carrito);
+      }else{
+          $carrito[$producto->id]->cantidad=$producto->stock;
+          \Session::put('carrito' , $carrito);
+          Flash::warning('Ha excedido el maximo de disponibilidad de articulos')->important();
+          }
 
     	return redirect()->route('carrito.mostrar');
     }

@@ -1,21 +1,24 @@
 .estilodiv{
-	/*background-color: #F4F4F4;*/	
+	/*background-color: #F4F4F4;*/
 }
 
 .imgindex{
 	padding:2px;
-	background:#999;
-	border-radius:20px;
+	/*background:#FAFAFA;
+	border-radius:20px;/*
 	-webkit-transition:-webkit-transform 0.3s ease-in-out 0.1s;
 	-ms-transition:-webkit-transform 0.3s ease-in-out 0.1s;
 	/*La transicion de las imagenes cuando crecer y decrecer*/
-	box-shadow:#999 5px 5px 10px;
+
 }
 
 /*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
 .imgindex:hover{
-	-webkit-transform:scale(1.1); /*hace que la imagen crezca*/
-	-ms-transform:scale(1.1);	
+
+	background:#FAFAFA;
+	-webkit-box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
+	-moz-box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
+	box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
 }
 
 
@@ -26,7 +29,7 @@
 	/*border: 1px solid #DDD;*/
 	margin:0 auto;
 	margin-left: 2%;
-	margin-top: 50px;	
+	margin-top: 50px;
 
 	background-color:#CC10;
    	text-align: center;
@@ -34,14 +37,14 @@
    	font: normal normal 18px quicksand;  /*fuente*/
 	letter-spacing: 2px; /*separación entre las letras*/
 	text-align: center; /*podemos cambiar por right. Si lo queremos a la izq. borrar esta línea*/
-	text-transform: uppercase; 
+	text-transform: uppercase;
 
 }
 
 .boton_carrito{
 	text-decoration: none;
     padding: 10px;
-    
+
     color: #ffffff;
     background-color: #1A1A1A;
     border-radius: 8px;
@@ -55,16 +58,23 @@
 
   .labelstock{
  	font-weight: 0; /*en negritas*/
-    font-size:  13px; /*tamaño*/
+  font-size:  13px; /*tamaño*/
 	width:90%;
-	font-family: Georgia, "Times New Roman", Times, serif;	
+	font-family: Georgia, "Times New Roman", Times, serif;
  }
+
+ .labeltitle{
+ font-weight: 0; /*en negritas*/
+ font-size:  23px; /*tamaño*/
+ width:90%;
+ font-family: Georgia, "Times New Roman", Times, serif;
+}
 
  .tabla-carrito{
 	background:#fff;
 	border-radius: 1em;
 	margin-bottom: 30px;
-	padding: 1em; 
+	padding: 1em;
 
  }
 
@@ -97,5 +107,5 @@ h1,h2,h3,h4,h5,h6
 /*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
 .busqueda-producto img:hover{
 	-webkit-transform:scale(1.2); /*hace que la imagen crezca*/
-	-ms-transform:scale(1.2);	
+	-ms-transform:scale(1.2);
 }

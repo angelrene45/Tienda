@@ -13,33 +13,40 @@ use PDF;
 class InicioController extends Controller
 {
 	public function inicio(){
-		$productos = Producto::
-                orderBy('id', 'desc')
-                ->limit(6)
-                ->get();
 
-        $productos->each(function($productos){
-            $productos->categoria;
-            $productos->imagenes;
-        });
+				$productos = Producto::
+										orderBy('id', 'desc')
+										->limit(6)
+										->get();
+										
+				$masvendido = 0;
 
-        $max = Producto::max('vendido');
-        $masvendido = Producto::where('vendido' , '>=' , $max)->get();
+				if(count($productos)>0){
+					//$productos = Producto::orderBy('id', 'desc')->paginate(3);
 
-        $masvendido->each(function($masvendido){
-            $masvendido->imagenes;
-        });
+	        $productos->each(function($productos){
+	            $productos->categoria;
+	            $productos->imagenes;
+	        });
 
-    	return view('index')->with(['productos'=>$productos , 'masvendido' => $masvendido]);
+	        $max = Producto::max('vendido');
+	        $masvendido = Producto::where('vendido' , '>=' , $max)->get();
+
+	        $masvendido->each(function($masvendido){
+	            $masvendido->imagenes;
+	        });
+				}
+
+    		return view('index')->with(['productos'=>$productos , 'masvendido' => $masvendido]);
     }
 
     public function descripcion($id){
     	$producto = Producto::find($id);
     	$producto->imagenes;
     	$producto->categoria;
-		$producto->tallas;
+			$producto->tallas;
 
-		$tallas = Talla::all();
+			$tallas = Talla::all();
 
     	return view('Principal.detalle')->with(['producto' => $producto , 'tallas' => $tallas]);
     }
@@ -71,15 +78,15 @@ class InicioController extends Controller
 
         $palabra = $request->buscador;
 
-            $productos = Producto::search($request->buscador)->paginate(9);
-            $productos->each(function($productos){
-                $productos->categoria;
-                $productos->imagenes;
-            });
+	          $productos = Producto::search($request->buscador)->paginate(9);
+	          $productos->each(function($productos){
+	              $productos->categoria;
+	              $productos->imagenes;
+	          });
 
 
 
-        return view('Principal.productos')->with(['productos' => $productos , 'palabra' => $palabra] );
+	      return view('Principal.productos')->with(['productos' => $productos , 'palabra' => $palabra] );
     }
 
 }

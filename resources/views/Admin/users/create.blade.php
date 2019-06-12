@@ -44,26 +44,28 @@
             <label>Tipo de usuario</label>
             <select class="form-control" id="type" name="type" select="{{old ('type')}}" >
                         <option value="member">
-                          Miembro
+                          Cliente
+                        </option>
+                        <option value="purchaser">
+                          Comprador
                         </option>
                         <option value="admin">
                           Administrador
                         </option>
-                      
-            </select> 
+            </select>
           </div>
 
 
 
            <button type="submit" class="btn btn-primary">Registrar</button>
-            
-               
+
+
        </form>
 
 
        </div>
      </div>
-   
+
 
 </div><!-- /.container -->
   @endsection

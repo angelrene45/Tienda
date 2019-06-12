@@ -1,7 +1,6 @@
  @extends('layouts.app')
 
   @section('content')
-  	<div class="container">
 
   	<div class="panel panel-default">
       <!-- Default panel contents -->
@@ -12,7 +11,7 @@
        {{csrf_field()}}
        {{ method_field('PUT') }}
 
-           
+
            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                <label for="">Nombre</label>
                <input type="text" class="form-control" id="name" name="name"  placeholder="Nombre completo" value="{{ $user->name or old ('name') }}" autofocus pattern="[a-zA-Z0-9 ]+" >
@@ -37,32 +36,38 @@
         <label>Tipo de usuario</label>
         <select class="form-control chosen-user" id="type" name="type">
                     <option value="member"
-            @if($user->type == 'member')
+                    @if($user->type == 'member')
                         selected='selected'
                       @endif
                     >
-                      Miembro 
+                      Cliente
                     </option>
-                    <option value="admin" 
+                    <option value="purchaser"
+                      @if($user->type == 'purchaser')
+                        selected='selected'
+                      @endif
+                      >
+                      Comprador
+                    </option>
+                    <option value="admin"
                       @if($user->type == 'admin')
                         selected='selected'
                       @endif
                       >
                       Administrador
                     </option>
-                  
-              </select> 
+
+              </select>
       </div>
 
            <button type="submit" class="btn btn-primary">Editar</button>
-            
-            
+
+
        </form>
-        
+
       </div>
 
      </div>
 
-  	</div>
-	
+
   @endsection

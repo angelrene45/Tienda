@@ -15,13 +15,16 @@ class CreateOrdenesTable extends Migration
     {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('subtotal',10,2);
-            $table->decimal('envio',10,2);
+            $table->enum('estatus',['En validacion','En transito','Completa'])->default('En validacion');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+            $table->integer('user_comp_id')->unsigned();
+            $table->foreign('user_comp_id')
+                  ->references('id')
+                  ->on('users');
             $table->timestamps();
         });
     }

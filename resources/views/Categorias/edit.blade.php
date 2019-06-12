@@ -5,10 +5,9 @@
  	@endsection
 
   @section('content')
-	
-<div class="container">
+
  <div class="row">
-   <div class="col-md-10 col-md-offset-1">
+   <div class="col-md-12">
 
    <div class="panel panel-default">
      <div class="panel-heading">Editar categoria</div>
@@ -28,18 +27,18 @@
              @endif
           </div>
 
-           
+
            <button type="submit" class="btn btn-primary">Actualizar</button>
-            
-               
+
+
        </form>
 
 
           </div>
-       </div> 
+       </div>
      </div>
-   </div>     
- </div><!-- /.container -->
+   </div>
+
 
 
   @endsection

@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrdenItem extends Model
 {
-    protected $table = 'orden_items';
-	protected $fillable = ['precio', 'cantidad', 'producto_id', 'orden_id'];
+  protected $table = 'orden_items';
+	protected $fillable = ['precio','moneda' ,'cantidad', 'producto_id', 'orden_id'];
 	public $timestamps = false;
 
 	public function orden()

@@ -4,15 +4,14 @@
   @endsection
 
   @section('content')
-	<div class="container">
    <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-    
+    <div class="col-md-12">
+
       <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">Usuarios</div>
         <div class="panel-body">
-          <a class="btn btn-primary" href="{{route('users.create')}}" role="button"> Nuevo Usuario       
+          <a class="btn btn-primary" href="{{route('users.create')}}" role="button"> Nuevo Usuario
           </a>
         </div>
 
@@ -35,9 +34,11 @@
               <td>{{$user->name}}</td>
               <td>
         @if($user->type == 'member')
-        <span class="label label-primary">{{$user->type}}</span>
+        <span class="label label-primary">Cliente</span>
+        @elseif ($user->type == 'purchaser')
+        <span class="label label-warning">Comprador</span>
         @else
-        <span class="label label-danger">{{$user->type}}</span>
+        <span class="label label-danger">Administrador</span>
         @endif
               </td>
               <td>{{$user->email}}</td>
@@ -54,16 +55,16 @@
         </table>
 
     <center>
-      {{ $users->links() }} 
+      {{ $users->links() }}
     </center>
-        
+
 
       </div>
-        
+
       </div>
 
 
-  </div>    
- </div>  
-</div><!-- /.container -->
+  </div>
+ </div>
+
   @endsection

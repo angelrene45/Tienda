@@ -44,9 +44,9 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 	//Route::name('product.edit')->get('product/edit/{product}','ProductoController@edit');
 
 	//Panel de admin
-	Route::prefix('admin')->group(function () 
+	Route::prefix('admin')->group(function ()
 	{
-	
+
 	    Route::resource('users','UsersController');
 
 		Route::get('users/{id}/destroy' , [
@@ -62,14 +62,6 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 	Route::get('categorias/{id}/destroy' , [
 			'uses' => 'CategoriasController@destroy',
 			'as'   => 'categorias.destroy'
-
-			]);
-
-	//CRUD EN TALLAS
-	Route::resource('tallas','TallasController');
-	Route::get('tallas/{id}/destroy' , [
-			'uses' => 'TallasController@destroy',
-			'as'   => 'tallas.destroy'
 
 			]);
 
@@ -120,6 +112,11 @@ Route::get('carrito/añadir/{producto}' , [
 			'as'   => 'carrito.añadir'
 
 			]);
+	Route::get('carrito/add/{producto}' , [
+				'uses' => 'CarritoController@add',
+				'as'   => 'carrito.add'
+
+				]);
 Route::get('carrito/eliminar/{producto}' , [
 			'uses' => 'CarritoController@eliminar',
 			'as'   => 'carrito.eliminar'
@@ -159,8 +156,3 @@ Route::get('payment/status' , [
 
 
 });
-
-
-
-
-

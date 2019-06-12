@@ -12,6 +12,7 @@ use Laracasts\Flash\Flash;
 use PDF;
 use DB;
 use File;
+use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
 {
@@ -24,10 +25,9 @@ class ProductoController extends Controller
     {
         $producto = Producto::paginate(7);
         //nos ayudara a saber las tallas de cada producto
-        $producto->each(function($producto){ 
+        $producto->each(function($producto){
             $producto->tallas;
         });
-
 
         return view('Productos.index')->with(['productos' => $producto]);
     }
@@ -40,9 +40,9 @@ class ProductoController extends Controller
     public function create()
     {
         $categorias = Categoria::all();
-        $tallas = Talla::all();
+        //$tallas = Talla::all();
 
-        return view('Productos.create')->with(['categorias'=> $categorias , 'tallas' => $tallas]); //carpeta.archivo
+        return view('Productos.create')->with(['categorias'=> $categorias]); //carpeta.archivo
     }
 
     /**
@@ -55,34 +55,37 @@ class ProductoController extends Controller
     {
 
         $this->validate($request, [
-        'Nombre' => 'required|max:120',
+        'Codigo' => 'required|max:191|unique:productos',
+        'Nombre' => 'required|max:191',
         'Descripcion' => 'required',
-        'Precio' => 'required|numeric', 
+        'Precio' => 'required|numeric',
+        'Moneda' => 'required',
         'Stock' => 'required|numeric',
         'Categoria' => 'required',
-        'Tallas' => '',
-        'imagen' => 'max:3|',
+        'imagen' => 'max:3|'
         ]);
-        
+
         $producto = new Producto;
+        $producto->codigo = $request->Codigo; //id en el formulario
         $producto->nombre = $request->Nombre; //id en el formulario
-        $producto->descripcion = $request->Descripcion; 
-        $producto->precio = $request->Precio; 
+        $producto->descripcion = $request->Descripcion;
+        $producto->precio = $request->Precio;
+        $producto->moneda = $request->Moneda;
         $producto->categoria_id = $request->Categoria;
-        $producto->stock = $request->Stock; 
+        $producto->stock = $request->Stock;
 
         //Da de alta el producto en la base de datos
-        $producto->save(); 
+        $producto->save();
 
         //rellena mi tabla pivote
-        $producto->tallas()->sync($request->tallas);
+        //$producto->tallas()->sync($request->tallas);
 
         //manipulacion de imagenes
         if($request->file('imagen'))
         {
 
             $imagenes = $request->file('imagen');
-            
+
             foreach($imagenes as $imagen)
             {
 
@@ -102,7 +105,7 @@ class ProductoController extends Controller
 
 
         Flash::success('Se ha dado de alta el producto exitosamente!')->important();
-        
+
         return redirect()->route('products.index');
     }
 
@@ -127,16 +130,13 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
         $categorias=Categoria::all();
-        $tallas = Talla::all();
 
-        //Mostrar las tallas que tiene el producto
-        $misTallas = $producto->tallas;
 
         //Mostrar las imagenes del producto
         $imagenes = DB::table('imagenes')->where('producto_id',$producto->id)->get();
-        
-       
-        return view('Productos.edit')->with(['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas , 'imagenes' => $imagenes ]);
+
+
+        return view('Productos.edit')->with(['categorias' => $categorias , 'producto' => $producto , 'imagenes' => $imagenes ]);
     }
 
     /**
@@ -148,34 +148,37 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $producto=Producto::find($id);
+
         $this->validate($request, [
+        'codigo' => Rule::unique('productos')->ignore($producto->id),
         'Nombre' => 'required|max:120',
         'Descripcion' => 'required',
-        'Precio' => 'required|numeric', 
+        'Precio' => 'required|numeric',
+        'Moneda' => 'required',
         'Stock' => 'required|numeric',
         'Categoria' => 'required',
-        'imagen' => 'max:3|',
-        'Tallas' => '',
-        
+        'imagen' => 'max:3|'
         ]);
 
         $producto = Producto::find($id);
+        $producto->codigo = $request->Codigo; //id en el formulario
         $producto->nombre = $request->Nombre; //id en el formulario
         $producto->descripcion = $request->Descripcion; //id en el formulario
         $producto->precio = $request->Precio; //id en el formulario
+        $producto->moneda = $request->Moneda; //id en el formulario
         $producto->categoria_id = $request->Categoria; //id en el formulario
         $producto->stock = $request->Stock; //id en el formulario
 
         $producto->save(); //Da de alta el producto en la base de datos
 
-        $producto->tallas()->sync($request->tallas); //rellena mi tabla pivote
 
         //manipulacion de imagenes
         if($request->file('imagen'))
         {
 
             $imagenes = $request->file('imagen');
-            
+
             foreach($imagenes as $imagen)
             {
 
@@ -209,46 +212,43 @@ class ProductoController extends Controller
     public function destroy($id)
     {
         
-        $producto = Producto::find($id)->first();
-
-        $path = public_path() . '/images/productos/';
+        $producto = Producto::where('id','=',$id)->first();
+        $path = base_path().'/public/images/productos/';
         $imagenes=Imagen::where('producto_id','=', $producto->id)->get();
 
         if($imagenes != null)
         {
             foreach($imagenes as $imagen)
             {
-                $name=$imagen->imagen; 
+                $name=$imagen->imagen;
 
                 $file=$path.$name;
 
-               
                 if(File::exists($file))
                 {
                     File::delete($file);
+                }else{
+                  Flash::warning("La Imagen no se pudo borrar correctamente!")->important();
                 }
             }
         }
 
         $producto->delete();
-        
-
         Flash::success("El producto se ha borrado satisfactoriamente!")->important();
         return redirect()->route('products.index');
+
     }
 
         public function borrar_imagenes($id){
         $imagenes = DB::table('imagenes')->where('producto_id', '=', $id)->get();
 
-        
+
         foreach($imagenes as $imagen)
         {
             $path = public_path() . '/images/productos/';
-            $name=$imagen->imagen; 
+            $name=$imagen->imagen;
 
             $file=$path.$name;
-
-
 
             if(File::exists($file)){
                 File::delete($file);
@@ -258,8 +258,8 @@ class ProductoController extends Controller
         DB::table('imagenes')->where('producto_id', '=', $id)->delete(); //borramos imagenes en la base de datos
 
         Flash::success("Las imagenes se han borrado correctamente!")->important();
-        
-        
+
+
         return redirect()->route('products.edit', [$id]);
     }
 }

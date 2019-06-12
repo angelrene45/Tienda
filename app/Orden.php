@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orden extends Model
 {
-    protected $table = 'ordenes';
-	protected $fillable = ['subtotal', 'envio', 'user_id'];
+  protected $table = 'ordenes';
+	protected $fillable = ['subtotal', 'envio', 'user_id','user_comp_id','estatus'];
 	// Relation with User
 	public function user()
 	{
@@ -16,5 +16,13 @@ class Orden extends Model
 	public function orden_items()
 	{
 	    return $this->hasMany('App\OrdenItem');
+	}
+  public function tracks()
+	{
+	    return $this->hasMany('App\Track');
+	}
+  public function orden_pdf()
+	{
+	    return $this->hasMany('App\Orden_pdf');
 	}
 }

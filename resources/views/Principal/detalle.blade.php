@@ -3,7 +3,7 @@
 <br>
 
 @section('principal')
-		
+
 		<div class="container text-center principaldetalle">
 			<div class="page-header">
 			  <h1><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del producto</h1>
@@ -15,22 +15,22 @@
 			  <br><br>
 				<center>
 			 	 @for ($i=0; $i<count($producto->imagenes); $i++)
-			 	 
+
 				    <a href="#editar"  data-toggle="modal" data-target="#editar">
 				      <img class="img-responsive" src="{{ URL::to('/') }}/images/productos/{{$producto->imagenes[$i]->imagen}}" alt="..." width="500" height="500" class="img-rounded">
 				    </a>
-				 
+
 				    @break
 				 @endfor
 				</center>
 				 <button class="btn btn-default" type="submit" data-toggle="modal" data-target="#editar">
     			<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
-    			
+
     			</button>
 
-					
+
 			</div>
-					
+
 			  <div class="col-md-4">
 
 				  <div class="product-block">
@@ -47,25 +47,25 @@
 
 							@foreach($tallas as $talla)
 			                    @foreach($producto->tallas as $miTalla)
-					
+
 									@if($miTalla->id == $talla->id)
-				                       <option value="{{$talla->talla}}">{{ $talla->talla }}</option> 
+				                       <option value="{{$talla->talla}}">{{ $talla->talla }}</option>
 				                    @endif
 
 			                    @endforeach
-			                @endforeach  
+			                @endforeach
 					</select>
-				
-							
-					
+
+
+
 			            </p><hr>
 
-			            
+
 						<p>{{ $producto->descripcion }}</p><hr>
 						<h3>
 							<span class="label label-success">Precio: ${{ number_format($producto->precio,2) }}</span><hr>
 						</h3><br>
-						<p> 
+						<p>
 							<button class="boton_carrito" type="submit" class="btn btn-primary">Añadir al carrito</button>
 						</p><br><hr><br>
 				</form>
@@ -73,11 +73,11 @@
 
 
 						<p> DISPONIBILIDAD: <br>{{$producto->stock}}</p> <br>
-	                    
+
 	                    @if($producto->stock < 10)
 							<label class="labelstock">*Este artículo cuenta con poca existencia</label>
 	                    @endif
-	                  </div>	
+	                  </div>
 
 						<br>
 	                      <a href="{{route('producto.pdf',['producto' => $producto->id]) }}" class="btn btn-danger">
@@ -86,8 +86,8 @@
 
 
 					</div>
-				</div>	
-				
+				</div>
+
 			</div><hr>
 
 			<p>
@@ -110,7 +110,7 @@
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					        <h4 class="modal-title" id="exampleModalLabel">{{$producto->nombre}}</h4>
 					     </div>
-					      
+
 					      <div class="modal-body">
 
 							<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -146,10 +146,10 @@
 							    <span class="sr-only">Next</span>
 							  </a>
 							</div>
-					        
+
 					      </div>
 
-					      
+
 					    </div>
 					  </div>
 					</div>

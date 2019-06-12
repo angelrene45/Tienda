@@ -15,9 +15,11 @@ class CreateProductosTable extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('codigo')->unique();;
             $table->string('nombre');
             $table->string('descripcion');
             $table->string('precio');
+            $table->enum('moneda',['USD','MXN','EUR'])->default('MXN');
             $table->string('stock');
             $table->integer('categoria_id')->unsigned();
             $table->integer('vendido')->default(0);
