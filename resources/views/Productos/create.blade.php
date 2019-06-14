@@ -34,7 +34,7 @@
            </div>
            <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                <label for="">Descripcion</label>
-               <textarea class="form-control textarea-content" rows="5" id="Descripcion" name="Descripcion"  placeholder="Escriba la descripcion del producto" value="{{ old('Descripcion') }}"></textarea>
+               <textarea class="form-control textarea-content" rows="5" id="Descripcion" name="Descripcion"  placeholder="Escriba la descripcion del producto">{{ old('Descripcion') }}</textarea>
                 @if ($errors->has('Descripcion'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Descripcion') }}</strong>
@@ -52,7 +52,7 @@
            </div>
 
            <div class="form-group{{ $errors->has('Precio') ? ' has-error' : '' }}">
-             <label for="">Precio</label>
+             <label for="">Moneda</label>
              <select class="form-control chosen-select2" id="Moneda" name="Moneda" select="{{old ('Moneda')}}" >
                          <option value="USD">
                            USD
@@ -66,9 +66,9 @@
              </select>
            </div>
 
-           <div class="form-group{{ $errors->has('Stock') ? ' has-error' : '' }}">
+           <div class="form-group{{ $errors->has('Stock') ? ' has-error' : '' }} hidden">
                <label for="">Stock</label>
-               <input type="number" class="form-control" id="Stock" name="Stock" placeholder="Stock disponible" value="{{ old('Stock') }}">
+               <input type="number" class="form-control" id="Stock" name="Stock" placeholder="Stock disponible" value="0">
                 @if ($errors->has('Stock'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Stock') }}</strong>

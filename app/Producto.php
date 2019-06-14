@@ -7,7 +7,6 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Producto extends Model
 {
-
     protected $table = "productos";
     protected $primarykey = "id";
     protected $fillable = ['id','codigo','nombre','descripcion','precio','moneda','stock','categoria_id','vendido'];
@@ -25,7 +24,7 @@ class Producto extends Model
     }
 
     public function scopeSearch($query , $producto){
-        return $query->where('nombre' , 'LIKE','%'.$producto.'%')->orwhere('descripcion', 'like','%'.$producto.'%');
+        return $query->where('codigo' , 'LIKE','%'.$producto.'%')->orwhere('descripcion', 'like','%'.$producto.'%');
     }
 
     public function imagenes(){

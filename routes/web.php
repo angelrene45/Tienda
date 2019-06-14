@@ -24,7 +24,9 @@ Route::name('producto.pdf')->get('archivo/{id}/pdf','InicioController@pdf');
 
 Route::name('producto.descripcion')->get('principal/{id}/{slug}','InicioController@descripcion');
 
-Route::name('producto.busqueda')->get('inicio/busqueda/','InicioController@busqueda');
+Route::name('producto.busqueda')->get('inicio/busqueda/producto/','InicioController@busqueda');
+
+Route::name('producto.indexBusqueda')->get('inicio/busqueda/','InicioController@indexBusqueda');
 
 
 
@@ -47,7 +49,7 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 	Route::prefix('admin')->group(function ()
 	{
 
-	    Route::resource('users','UsersController');
+	  Route::resource('users','UsersController');
 
 		Route::get('users/{id}/destroy' , [
 			'uses' => 'UsersController@destroy',
@@ -105,6 +107,11 @@ Route::bind('producto' , function($slug){
 Route::get('carrito/mostrar' , [
 			'uses' => 'CarritoController@mostrar',
 			'as'   => 'carrito.mostrar'
+
+			]);
+Route::get('carrito/cotizacion' , [
+			'uses' => 'CarritoController@cotizacionpdf',
+			'as'   => 'carrito.cotizacion'
 
 			]);
 Route::get('carrito/añadir/{producto}' , [

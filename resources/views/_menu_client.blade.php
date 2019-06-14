@@ -21,7 +21,7 @@
                 @if (Auth::guest())
                   <a href="{{ route('login') }}">Iniciar Sesion <b class="glyphicon glyphicon-user"></b></a>
                 @else
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <b class="fa fa-angle-down"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></a>
                 <ul class="dropdown-menu">
                     <li><a href="#"><i class="glyphicon glyphicon-user"></i> Edit Profile</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li>
-                  <a href="{{route('producto.busqueda')}}"><i class="glyphicon glyphicon-search"></i>  Busqueda del Producto</a>
+                  <a href="{{route('producto.indexBusqueda')}}"><i class="glyphicon glyphicon-search"></i>  Busqueda del Producto</a>
                     <!--Ejemplo dropdown
                     <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> MENU 1 <i class="fa fa-fw fa-angle-down pull-right"></i></a>
                     <ul id="submenu-1" class="collapse">

@@ -60,7 +60,7 @@ class ProductoController extends Controller
         'Descripcion' => 'required',
         'Precio' => 'required|numeric',
         'Moneda' => 'required',
-        'Stock' => 'required|numeric',
+        'Stock' => 'numeric',
         'Categoria' => 'required',
         'imagen' => 'max:3|'
         ]);
@@ -156,7 +156,7 @@ class ProductoController extends Controller
         'Descripcion' => 'required',
         'Precio' => 'required|numeric',
         'Moneda' => 'required',
-        'Stock' => 'required|numeric',
+        'Stock' => 'numeric',
         'Categoria' => 'required',
         'imagen' => 'max:3|'
         ]);
@@ -211,7 +211,7 @@ class ProductoController extends Controller
 
     public function destroy($id)
     {
-        
+
         $producto = Producto::where('id','=',$id)->first();
         $path = base_path().'/public/images/productos/';
         $imagenes=Imagen::where('producto_id','=', $producto->id)->get();

@@ -18,7 +18,7 @@ class InicioController extends Controller
 										orderBy('id', 'desc')
 										->limit(6)
 										->get();
-										
+
 				$masvendido = 0;
 
 				if(count($productos)>0){
@@ -55,39 +55,45 @@ class InicioController extends Controller
     public function pdf($id){
         $producto = Producto::find($id);
         $categorias=Categoria::all();
-        $tallas = Talla::all();
 
-        //Mostrar las tallas que tiene el producto
-        $misTallas = $producto->tallas;
 
         $producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
 
 				//$pdf = PDF::loadView('invoice');
 				//return $pdf->download('invoice.pdf');
 
-				$data = ['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas ];
+				$data = ['categorias' => $categorias , 'producto' => $producto ];
+
+				//return view('Productos.vistapdf',$data);
 
 
         $pdf = \PDF::loadView('Productos.vistapdf' , $data);
 
-				//return view('Productos.vistapdf')->with(['categorias' => $categorias , 'producto' => $producto , 'misTallas' => $misTallas , 'tallas' => $tallas ]);
-        return $pdf->download('Productoprint.pdf');
+        return $pdf->download($producto->codigo.'.pdf');
     }
 
     public function busqueda(Request $request){
 
-        $palabra = $request->buscador;
+        	$filtro = $request->Filtro;
+        	$texto = $request->Texto;
 
-	          $productos = Producto::search($request->buscador)->paginate(9);
-	          $productos->each(function($productos){
-	              $productos->categoria;
-	              $productos->imagenes;
-	          });
+          $productos = Producto::search($texto)->paginate(9);
+          //$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
+					//dd($productos);
+          $productos->each(function($productos){
+              $productos->categoria;
+              $productos->imagenes;
+          });
 
 
-
-	      return view('Principal.productos')->with(['productos' => $productos , 'palabra' => $palabra] );
+	      	return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $texto] );
     }
+
+		public function indexBusqueda(Request $request){
+
+				return view('Principal.indexBusqueda');
+
+		}
 
 }
 

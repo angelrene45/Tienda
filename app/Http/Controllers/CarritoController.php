@@ -18,8 +18,12 @@ class CarritoController extends Controller
     public function mostrar(){
 
     	$carrito = \Session::get('carrito');
-    	$total = $this->total();
-    	return view ('Principal.carrito', compact('carrito','total'));
+    	$totalMXN = $this->totalMXN();
+    	$totalUSD= $this->totalUSD();
+
+    	return view ('Principal.carrito', compact('carrito','totalMXN','totalUSD'));
+
+
     }
 
     //agregar item
@@ -42,11 +46,12 @@ class CarritoController extends Controller
       if($request->ajax()){
         $carrito = \Session::get('carrito');
       	$producto->cantidad = $request->cantidad;
-        //$producto->talla = $request->talla;
+        $producto->moneda = $request->moneda;
       	$producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
       	$carrito[$producto->id] = $producto;
 
         \Session::put('carrito' , $carrito);
+
 
         return response()->json([
           'total' => count(\Session::get('carrito')),
@@ -70,14 +75,17 @@ class CarritoController extends Controller
     //actualizar item
     public function actualizar(Producto $producto, $cantidad){
     	$carrito = \Session::get('carrito');
-      if($cantidad <= $producto->stock){
+      /*if($cantidad <= $producto->stock){
         	$carrito[$producto->id]->cantidad=$cantidad;
         	\Session::put('carrito' , $carrito);
       }else{
           $carrito[$producto->id]->cantidad=$producto->stock;
           \Session::put('carrito' , $carrito);
           Flash::warning('Ha excedido el maximo de disponibilidad de articulos')->important();
-          }
+        }*/
+
+        $carrito[$producto->id]->cantidad=$cantidad;
+        \Session::put('carrito' , $carrito);
 
     	return redirect()->route('carrito.mostrar');
     }
@@ -90,18 +98,37 @@ class CarritoController extends Controller
     }
 
     //obetener total carrito
-    private function total(){
+    private function totalMXN(){
     	$carrito = \Session::get('carrito');
-    	$total = 0;
+    	$totalmxn = 0;
 
     	if(!empty($carrito)){
     		foreach($carrito as $item){
-    		$total += $item->precio * $item->cantidad;
+          if($item->moneda == "MXN"){
+    		    $totalmxn += $item->precio * $item->cantidad;
+          }
     		}
     	}
 
 
-    	return $total;
+    	return $totalmxn;
+    }
+
+    //obetener total carrito
+    private function totalUSD(){
+      $carrito = \Session::get('carrito');
+      $totalusd = 0;
+
+      if(!empty($carrito)){
+        foreach($carrito as $item){
+          if($item->moneda == "USD"){
+            $totalusd += $item->precio * $item->cantidad;
+          }
+        }
+      }
+
+
+      return $totalusd;
     }
 
     public function ordenDetalle(){
@@ -110,5 +137,21 @@ class CarritoController extends Controller
         $total = $this->total();
 
         return view('Principal.ordenDetalle' , compact('carrito' , 'total'));
+    }
+
+    public function cotizacionpdf(){
+      $carrito = \Session::get('carrito');
+    	$totalMXN = $this->totalMXN();
+    	$totalUSD= $this->totalUSD();
+
+      $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+
+      //return view('Principal.cotizacionpdf',$data);
+
+
+
+      $pdf = \PDF::loadView('Principal.cotizacionpdf' , $data);
+
+      return $pdf->download('cotizacion.pdf');
     }
 }

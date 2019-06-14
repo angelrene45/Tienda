@@ -82,9 +82,9 @@
                   @endif
            </div>
 
-           <div class="form-group{{ $errors->has('Stock') ? ' has-error' : '' }}">
+           <div class="form-group{{ $errors->has('Stock') ? ' has-error' : '' }} hidden">
                <label for="">Stock</label>
-               <input type="number" class="form-control" id="Stock" name="Stock" placeholder="Input field" value="{{ $producto->stock or old ('Stock') }}" required>
+               <input type="number" class="form-control" id="Stock" name="Stock" placeholder="Input field" value="{{ $producto->stock}}" required>
                @if ($errors->has('Stock'))
                  <span class="help-block">
                    <strong>{{ $errors->first('Stock') }}</strong>

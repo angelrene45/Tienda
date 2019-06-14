@@ -4,37 +4,35 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Producto</title>
   <link rel="stylesheet" type="text/css" href="css/estiloPdf.css">
+  <!--<link rel="stylesheet" type="text/css" href="{{ asset('css/estiloPdf.css')}}">-->
 </head>
 <body>
 
       <div>
-        <hr size="10">
-        <h1 align="center">Tienda online</h1>
+        <img src="{{public_path('images/shel-logo.png')}}"  width="300px" alt="Shel">
       </div>
 
       <div>
-        <h2>{{$producto->nombre}}</h2>
+        <h2>{{$producto->codigo}}</h2>
       </div>
 
       <div>
-        <img src="{{public_path('images/productos/')}}{{$producto->imagen->imagen}}" alt="BTS" width="430" height="450">
+        @if($producto->imagen != NULL)
+          <img src="{{public_path('images/productos/')}}{{$producto->imagen->imagen}}" alt="BTS" width="430" height="450">
+        @endif
+      </div>
+      <br>
+      <div>
+        {{$producto->nombre}}
       </div>
 
       <div class="info">
-        <p align="center">Precio: ${{$producto->precio}}</p>
-        <p align="center">Tallas:
-        @foreach($producto->tallas as $talla)
-            | {{$talla->talla}} |
-        @endforeach
-        </p>
+        <p align="center">Precio: ${{$producto->precio}} {{$producto->moneda}}</p>
         <p>
           Descripcion del producto: {{$producto->descripcion}}
         </p>
-        <p>
-          Disponibilidad: {{$producto->stock}}
-        </p>
       </div>
 
-    <hr size="10">
+
 </body>
 </html>

@@ -70,6 +70,13 @@
  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
+.labeltitle2{
+font-weight: 0; /*en negritas*/
+font-size:  23px; /*tamaño*/
+width:100%;
+font-family: Georgia, "Times New Roman", Times, serif;
+}
+
  .tabla-carrito{
 	background:#fff;
 	border-radius: 1em;

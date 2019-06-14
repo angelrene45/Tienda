@@ -78,7 +78,7 @@
 							 </div>
 
 							 <h3 class="labeltitle center-block">{{$producto->nombre}}</h3>
-							 <span class="labelstock center-block">Existencia: {{$producto->stock}}</span>
+							 <span class="labelstock center-block hidden">Existencia: {{$producto->stock}}</span>
 							 <br>
 
 							 <div class="col-sm-9 col-md-9">
@@ -101,11 +101,12 @@
 														label-info
 													@endif
 													">{{$producto->moneda}}
+													<input class="hidden" type="text" name="moneda" id="moneda" value="{{$producto->moneda}}">
 												</span>
 											</td>
-									    <td><input id="cantidad" name="cantidad" type="number" value="1" min="1" max="{{$producto->stock}}"></td>
+									    <td><input id="cantidad" name="cantidad" type="number" value="1" min="1" max="10000"></td>
 											<td>
-												<button type="submit" class="boton_carrito btn-add-car">Añadir al carrito</button>
+												<button type="submit" class="btn btn-default btn-add-car"><i class="glyphicon glyphicon-shopping-cart"></i> Añadir al carrito</button>
 											</td>
 									  </tr>
 									</table>
@@ -137,7 +138,7 @@
                 <div class="col-md-8">
                     <p>Encuentra todos lo productos que buscas a un precio increible!</p>
                 </div>
-                
+
             </div>
         </div>
 
