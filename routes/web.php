@@ -67,6 +67,14 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 
 			]);
 
+	//CRUD EN DIRECCIONES
+	Route::resource('direcciones','DireccionesController');
+	Route::get('direcciones/{id}/destroy' , [
+			'uses' => 'DireccionesController@destroy',
+			'as'   => 'direcciones.destroy'
+
+			]);
+
 	//Ruta de imagenes
 	Route::get('imagenes' , [
 			'uses' => 'ImagenesController@index',
@@ -140,7 +148,14 @@ Route::get('carrito/actualizar/{producto}/{cantidad?}' , [
 
 			]);
 
-Route::get('orden.detalle' , [
+Route::get('orden/solicitud' , [
+			'middleware' => 'auth',
+			'uses' => 'CarritoController@ordenSolicitud',
+			'as'   => 'orden.solicitud'
+
+			]);
+
+Route::post('orden/detalle' , [
 			'middleware' => 'auth',
 			'uses' => 'CarritoController@ordenDetalle',
 			'as'   => 'orden.detalle'
@@ -159,6 +174,24 @@ Route::get('payment/status' , [
 			'as'   => 'payment.status'
 
 			]);
+
+Route::get('sendemail', function () {
+
+    $data = array(
+        'name' => "Curso Laravel",
+    );
+
+    Mail::send('emails.welcome', $data, function ($message) {
+
+        $message->from('sistemas@gova.com.mx', 'Curso Laravel');
+
+        $message->to('sistemas@gova.com.mx')->subject('test email Curso Laravel');
+
+    });
+
+    return "Tú email ha sido enviado correctamente";
+
+});
 
 
 

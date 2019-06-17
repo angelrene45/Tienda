@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Producto;
 use DB;
 use Laracasts\Flash\Flash;
+use Auth;
+use App\User;
 
 class CarritoController extends Controller
 {
@@ -131,12 +133,41 @@ class CarritoController extends Controller
       return $totalusd;
     }
 
-    public function ordenDetalle(){
-        if(count(\Session::get('carrito')) <= 0) return redirect()->route('inicio');
-        $carrito = \Session::get('carrito');
-        $total = $this->total();
+    public function ordenSolicitud(){
+        //solo los tipo de usuario member tendran que solicitar la autorizacion del pedidos
+        //los usuaros compradores(purchaser) automaticamente autirizan el pedido
+        $type = Auth::user()->type;
+        $compradores = User::where('type', 'purchaser')->get();
 
-        return view('Principal.ordenDetalle' , compact('carrito' , 'total'));
+        if($type == "member"){
+          return view('Principal.ordenSolicitud')->with(['compradores'=> $compradores]);
+        }else{
+          return view('Principal.ordenDetalle');
+        }
+
+    }
+
+    public function ordenDetalle(Request $request){
+
+        $type = Auth::user()->type;
+
+        if($type == "member"){
+          $compradorid = $request->purchaser;
+          $comprador = User::where('id', $compradorid)->first();
+          if(count(\Session::get('carrito')) <= 0) return redirect()->route('inicio');
+          $carrito = \Session::get('carrito');
+          $totalMXN = $this->totalMXN();
+          $totalUSD= $this->totalUSD();
+
+          $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+
+          return view('Principal.ordenDetalle' , compact('carrito','totalMXN','totalUSD'));
+        }else{
+          //es usuario purchaser y no necesita validar el pedido
+        }
+
+
+
     }
 
     public function cotizacionpdf(){
@@ -147,8 +178,6 @@ class CarritoController extends Controller
       $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
 
       //return view('Principal.cotizacionpdf',$data);
-
-
 
       $pdf = \PDF::loadView('Principal.cotizacionpdf' , $data);
 

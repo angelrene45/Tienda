@@ -170,7 +170,7 @@
 			<a href="{{route('inicio')}}" class="btn btn-primary">
 				<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Seguir comprando
 			</a>
-			<a href="{{route('orden.detalle')}}" class="btn btn-primary">Continuar
+			<a href="{{route('orden.solicitud')}}" class="btn btn-primary">Continuar
 				<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
 			</a>
 		</p>

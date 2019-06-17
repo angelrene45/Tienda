@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDatosEnvioTable extends Migration
+class CreateDireccionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateDatosEnvioTable extends Migration
      */
     public function up()
     {
-        Schema::create('datos__envio', function (Blueprint $table) {
+        Schema::create('direcciones', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('codigo_postal');
             $table->string('colonia');
             $table->string('calle');
             $table->string('numero_exterior');
             $table->string('estado');
-            $table->string('telefono');
+            $table->string('municipio');
             $table->timestamps();
-
-            $table->foreign('id')->references('id')->on('users');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateDatosEnvioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datos__envio');
+        Schema::dropIfExists('direcciones');
     }
 }

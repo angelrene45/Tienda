@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Orden extends Model
 {
   protected $table = 'ordenes';
-	protected $fillable = ['subtotal', 'envio', 'user_id','user_comp_id','estatus'];
+	protected $fillable = ['subtotal', 'envio', 'user_id','user_comp_id','direccion_id','estatus'];
 	// Relation with User
 	public function user()
 	{
@@ -25,4 +25,9 @@ class Orden extends Model
 	{
 	    return $this->hasMany('App\Orden_pdf');
 	}
+
+  public function direccion()
+    {
+        return $this->hasOne('App\Direccion');
+    }
 }

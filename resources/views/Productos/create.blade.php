@@ -51,7 +51,7 @@
              @endif
            </div>
 
-           <div class="form-group{{ $errors->has('Precio') ? ' has-error' : '' }}">
+           <div class="form-group{{ $errors->has('Moneda') ? ' has-error' : '' }}">
              <label for="">Moneda</label>
              <select class="form-control chosen-select2" id="Moneda" name="Moneda" select="{{old ('Moneda')}}" >
                          <option value="USD">

@@ -25,6 +25,10 @@ class CreateOrdenesTable extends Migration
             $table->foreign('user_comp_id')
                   ->references('id')
                   ->on('users');
+            $table->integer('direccion_id')->unsigned();
+            $table->foreign('direccion_id')
+                  ->references('id')
+                  ->on('direcciones');
             $table->timestamps();
         });
     }

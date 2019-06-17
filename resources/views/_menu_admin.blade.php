@@ -42,6 +42,7 @@
               <li class=""><a href="{{route('users.index')}}"><i class="glyphicon glyphicon-user"></i> Usuarios</a></li>
               <li class=""><a href="{{route('products.index')}}"><i class="glyphicon glyphicon-tasks"></i> Productos</a></li>
               <li class=""><a href="{{route('categorias.index')}}"><i class="glyphicon glyphicon-th-large"></i> Categorias</a></li>
+              <li class=""><a href="{{route('direcciones.index')}}"><i class="glyphicon glyphicon-map-marker"></i> Direcciones</a></li>
               <li class=""><a href="{{route('admin.order.index')}}"><i class="glyphicon glyphicon-th-list"></i> Pedidos</a></li>
             </ul>
         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	<div class="container text-center">
+	<div class="text-center">
 		<div class="page-header">
 			<h1><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del pedido</h1>
 		</div>
@@ -19,7 +19,6 @@
 				<table class="table table table-striped table-hover table-bordered">
 					<tr>
 						<th>Producto</th>
-						<th>Talla</th>
 						<th>Precio</th>
 						<th>Cantidad</th>
 						<th>Subtotal</th>
@@ -28,7 +27,6 @@
 					@foreach($carrito as $item)
 					<tr>
 						<td>{{$item->nombre}}</td>
-						<td>{{$item->talla}}</td>
 						<td>{{number_format($item->precio,2)}}</td>
 						<td>{{$item->cantidad}}</td>
 						<td>{{number_format($item->precio * $item->cantidad,2)}}</td>
@@ -37,7 +35,7 @@
 				</table><hr>
 				<h3>
 					<span class="label label-success">
-						$Total ${{number_format($total,2)}}	
+						$Total ${{number_format($totalMXN,2)}}
 					</span>
 				</h3><hr>
 				<p>
