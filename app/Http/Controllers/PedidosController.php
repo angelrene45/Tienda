@@ -8,20 +8,46 @@ use App\OrdenItem;
 use App\Direccion;
 use App\Orden_pdfs;
 use File;
+use Auth;
 
-class OrderController extends Controller
+class PedidosController extends Controller
 {
     public function index()
     {
-    	$ordenes = Orden::orderBy('id', 'desc')->get();
+      //obtemeos el tipo de usuario que solicita los pedidos
+      $typeUser = auth()->user()->type;
+      $idUser = auth()->user()->id;
 
+      $ordenes = Orden::where('user_id', $idUser)->get();
       $ordenes->each(function($ordenes){
           $ordenes->direccion;
           $ordenes->comprador;
       });
 
-    	return view('Admin.order.index', compact('ordenes'));
+      return view('Pedidos.index', compact('ordenes'));
+
     }
+    public function indexValidar()
+    {
+      //obtemeos el tipo de usuario que solicita los pedidos
+      $typeUser = auth()->user()->type;
+      $idUser = auth()->user()->id;
+
+      if($typeUser == "purchaser"){//compradores
+        $ordenes = Orden::where('user_comp_id', $idUser)->where('user_id','!=',$idUser)->get();
+        $ordenes->each(function($ordenes){
+            $ordenes->direccion;
+            $ordenes->comprador;
+        });
+
+        return view('Pedidos.indexValidar', compact('ordenes'));
+      }else{
+        return redirect('inicio/inicio');
+      }
+
+    }
+
+    //detalle del pedido
     public function getItems(Request $request)
     {
 
@@ -44,7 +70,7 @@ class OrderController extends Controller
           $totalMXN = $this->totalMXN($items);
         	$totalUSD = $this->totalUSD($items);
 
-          $returnHTML = view('Admin.order.detalle')->with(['orden'=>$orden,'item' => $items, 'totalMXN' => $totalMXN, 'totalUSD' => $totalUSD])->render();
+          $returnHTML = view('Pedidos.detalle')->with(['orden'=>$orden,'item' => $items, 'totalMXN' => $totalMXN, 'totalUSD' => $totalUSD])->render();
 
           return response()->json([
             'success'=>'Data is successfully added',
@@ -58,19 +84,6 @@ class OrderController extends Controller
     	//dd($item);
     	//return view('Admin.order.detalle')->with(['orden' => $item]); */
     }
-    public function destroy(Request $request)
-    {
-      if($request->ajax()){
-        $orden = Orden::findOrFail($request->idPedido);
-
-        $deleted = $orden->delete();
-
-        return response()->json([
-          'success'=>'Pedido eliminado satisfactoriamente!'
-        ]);
-
-      }
-    }
 
     public function updateItemIndex(Request $request){
       if($request->ajax()){
@@ -80,7 +93,7 @@ class OrderController extends Controller
         //obtiene los pdfs de la orden
         $orden->orden_pdf;
 
-        $returnHTML = view('Admin.order.editar')->with(['orden'=>$orden])->render();
+        $returnHTML = view('Pedidos.editarEstatus')->with(['orden'=>$orden])->render();
 
         return response()->json([
           'success'=>'Data is successfully added',
@@ -92,52 +105,15 @@ class OrderController extends Controller
 
     public function updateItem(Request $request){
       if($request->ajax()){
-
-          /*
-          $this->validate($request, [
-          'pdfs' => 'max:6|mimes:pdf|'
-        ]); */
-
           $idPedido = $request->idPedido;
           $estatus = $request->estatus;
-          $guias = $request->guias;
-
           $orden = Orden::findOrFail($idPedido);
 
           $orden->estatus = $estatus;
-          $orden->guias = $guias;
           $orden->save();
 
-          //manipulacion de pdf
-          if($request->file('pdfs'))
-          {
-
-              $pdfs = $request->file('pdfs');
-
-              foreach($pdfs as $pdf)
-              {
-
-                  $file = $pdf;
-                  $name = 'pedido'.$idPedido.'_'. $file->getClientOriginalName();
-                  $path = public_path() . '/pedidos/pdfs/';
-                  $file->move($path,$name);
-
-                  //Rellena mi tabla ordenPdf
-                  $pdf_db = new Orden_pdfs();
-                  $pdf_db->nombre_pdf = $name;
-                  //$pdf_db->orden_id = $idPedido;
-                  $pdf_db->orden()->associate($orden); //asociara el pdf en el campo orden_id
-                  $pdf_db->save();
-              }
-
-          }
-
           return response()->json([
-            'message'=>'Pedido Actualizado',
-            'idPedido'=>$idPedido,
-            'estatus'=>$estatus,
-            'guias'=>$guias,
-            'pdfs'=>$request->file('pdfs')
+            'message'=>'Pedido Actualizado'
           ]);
       }
     }
@@ -152,33 +128,6 @@ class OrderController extends Controller
 
         //return Storage::download($file);
 
-    }
-    public function destroyPdf(Request $request){
-      if($request->ajax()){
-        $ruta = $request->rutaPdf;
-        //PDF file is stored under project/public/download/info.pdf
-        $file = base_path().'/public/pedidos/pdfs/'.$ruta;
-
-        $message = "";
-
-        if(File::exists($file))
-        {
-            File::delete($file);
-            $dbpdf=Orden_pdfs::where('nombre_pdf','=', $ruta)->first();
-            $dbpdf->delete();
-            $message = "Archivo borrado";
-        }else{
-            $message = "El archivo no pudo ser borrado";
-        }
-
-        /*
-        return response()->download($file);*/
-
-        return response()->json([
-          'message'=>$message,
-          'ruta'=>$file
-        ]);
-      }
     }
 
     //obetener total carrito

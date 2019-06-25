@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto; //para poder usar el modelo
-use App\Talla; //para poder usar el modelo
 use App\Categoria; //para poder usar el modelo
 use App\Imagen;
 use DB;
@@ -46,9 +45,7 @@ class InicioController extends Controller
     	$producto->categoria;
 			$producto->tallas;
 
-			$tallas = Talla::all();
-
-    	return view('Principal.detalle')->with(['producto' => $producto , 'tallas' => $tallas]);
+    	return view('Principal.detalle')->with(['producto' => $producto]);
     }
 
 

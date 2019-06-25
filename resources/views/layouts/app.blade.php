@@ -22,11 +22,15 @@
     <!-- <link href="starter-template.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="{{ asset('css/sidebar.css')}} " >
 
+    @yield('css')
+
+
   </head>
 
 
 <body>
     <div id="app">
+
 
        @if (Auth::guest())
             @include('_menu_client')
@@ -36,7 +40,7 @@
             @include('_menu_client')
 
        @elseif(Auth::user()->type == 'purchaser')
-            @include('_menu_client')
+            @include('_menu_purchaser')
 
        @endif
 

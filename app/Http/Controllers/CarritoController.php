@@ -8,6 +8,10 @@ use DB;
 use Laracasts\Flash\Flash;
 use Auth;
 use App\User;
+use App\Direccion;
+use App\OrdenItem;
+use App\Orden;
+use Illuminate\Support\Facades\Mail;
 
 class CarritoController extends Controller
 {
@@ -136,44 +140,88 @@ class CarritoController extends Controller
     public function ordenSolicitud(){
         //solo los tipo de usuario member tendran que solicitar la autorizacion del pedidos
         //los usuaros compradores(purchaser) automaticamente autirizan el pedido
-        $type = Auth::user()->type;
-        $compradores = User::where('type', 'purchaser')->get();
+        if(!empty(\Session::get('carrito'))){
+          $type = Auth::user()->type;
+          $direcciones = Direccion::all();
 
-        if($type == "member"){
-          return view('Principal.ordenSolicitud')->with(['compradores'=> $compradores]);
-        }else{
-          return view('Principal.ordenDetalle');
+          if($type == "member"){
+            $compradores = User::where('type', 'purchaser')->get();
+            return view('Principal.ordenSolicitud')->with(['compradores'=> $compradores, 'direcciones' => $direcciones]);
+          }else{
+            return view('Principal.ordenSolicitud')->with(['direcciones' => $direcciones]);
+          }
+        }else {
+          return redirect()->route('inicio');
         }
 
     }
 
     public function ordenDetalle(Request $request){
 
-        $type = Auth::user()->type;
 
-        if($type == "member"){
-          $compradorid = $request->purchaser;
-          $comprador = User::where('id', $compradorid)->first();
-          if(count(\Session::get('carrito')) <= 0) return redirect()->route('inicio');
-          $carrito = \Session::get('carrito');
-          $totalMXN = $this->totalMXN();
-          $totalUSD= $this->totalUSD();
+      $type = Auth::user()->type;
 
-          $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+      if($type == "member"){
+        $compradorid = $request->purchaser;
+        $direccion = Direccion::where('id',$request->direccion)->first();
+        $comprador = User::where('id', $compradorid)->first();
+        if(count(\Session::get('carrito')) <= 0) return redirect()->route('inicio');
+        $carrito = \Session::get('carrito');
+        $totalMXN = $this->totalMXN();
+        $totalUSD= $this->totalUSD();
 
-          return view('Principal.ordenDetalle' , compact('carrito','totalMXN','totalUSD'));
-        }else{
-          //es usuario purchaser y no necesita validar el pedido
-        }
+        $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+
+        return view('Principal.ordenDetalle' , compact('carrito','totalMXN','totalUSD','direccion','comprador'));
+      }else{
+        //es usuario purchaser y no necesita validar el pedido
+        $compradorid = $request->purchaser;
+        $direccion = Direccion::where('id',$request->direccion)->first();
+        if(count(\Session::get('carrito')) <= 0) return redirect()->route('inicio');
+        $carrito = \Session::get('carrito');
+        $totalMXN = $this->totalMXN();
+        $totalUSD= $this->totalUSD();
+
+        $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+
+        return view('Principal.ordenDetalle' , compact('carrito','totalMXN','totalUSD','direccion'));
+
+      }
+
+    }
+
+    public function ordenFinalizar(Request $request){
+
+      $direccionid = $request->direccionid;
+      $compradorid = $request->compradorid;
+      $compradoremail = $request->compradoremail;
+      $status = "En validacion";
+
+      $type = Auth::user()->type;
+      $nameUser = Auth::user()->name;
+
+      if($type == "purchaser"){
+        $status = "Validada";
+        $compradorid = \Auth::user()->id;
+      }
+
+      $carrito = \Session::get('carrito');
 
 
+      //$this->saveOrder($carrito,$status,$direccionid,$compradorid);
+      //\Session::forget('carrito');
+
+      $this->sendEmailToPurchaser($compradoremail,$nameUser);
+
+      flash('Pedido realizado de forma correcta')->success()->important();
+      return redirect('inicio/inicio');
 
     }
 
     public function cotizacionpdf(){
       $carrito = \Session::get('carrito');
-    	$totalMXN = $this->totalMXN();
-    	$totalUSD= $this->totalUSD();
+      $totalMXN = $this->totalMXN();
+      $totalUSD= $this->totalUSD();
 
       $data = ['carrito' => $carrito , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
 
@@ -182,5 +230,57 @@ class CarritoController extends Controller
       $pdf = \PDF::loadView('Principal.cotizacionpdf' , $data);
 
       return $pdf->download('cotizacion.pdf');
+    }
+
+    private function saveOrder($carrito,$status,$direccionid,$compradorid)
+    {
+
+        $orden = Orden::create([
+            'estatus' => $status,
+            'user_id' => \Auth::user()->id,
+            'user_comp_id' => $compradorid,
+            'direccion_id' => $direccionid,
+            'guias' => ''
+        ]);
+
+        foreach($carrito as $item){
+            $this->saveOrderItem($item, $orden->id);
+        }
+
+    }
+
+    private function saveOrderItem($item, $orden_id)
+    {
+      OrdenItem::create([
+        'cantidad' => $item->cantidad,
+        'precio' => $item->precio,
+        'moneda' => $item->moneda,
+        'producto_id' => $item->id,
+        'orden_id' => $orden_id
+      ]);
+
+      //actualizo el stock y vendido de mi producto
+      $producto = Producto::find($item->id);
+      $producto->vendido += $item->cantidad;
+      $producto->save();
+    }
+
+    private function sendEmailToPurchaser($emailComprador,$nameUser){
+
+      $data = array(
+          'email' => $emailComprador,
+          'nameUser' => $nameUser
+      );
+
+      Mail::send('emails.validacion', $data, function ($message) use ($emailComprador) {
+              $message->from('tienda@gova.com.mx', 'Pedido pendiente');
+              $message->to($emailComprador)->subject('Validación de orden');
+          });
+
+
+
+
+      dd("Enviado");
+
     }
 }

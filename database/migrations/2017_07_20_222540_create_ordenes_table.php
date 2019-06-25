@@ -15,7 +15,8 @@ class CreateOrdenesTable extends Migration
     {
         Schema::create('ordenes', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('estatus',['En validacion','En transito','Completa'])->default('En validacion');
+            $table->string('guias');
+            $table->enum('estatus',['En validacion','Validada','En transito','Completa'])->default('En validacion');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                   ->references('id')

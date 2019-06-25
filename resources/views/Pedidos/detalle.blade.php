@@ -13,7 +13,7 @@
          </table>
        </div>
      </div>
-
+     @if(Auth::user()->type != "purchaser")
      <div class="col-md-6">
        <div class="table-responsive">
          <h3 class="labeltitle2">Datos del comprador</h3>
@@ -24,6 +24,7 @@
          </table>
        </div>
      </div>
+     @endif
 
      <div class="col-md-12">
        <div class="table-responsive">
@@ -157,7 +158,7 @@
                 <button title="{{$pdf->nombre_pdf}}" class="btn btn-danger glyphicon glyphicon-save-file" data-toggle="dropdown">
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{route('admin.order.downloadPdf',$pdf->nombre_pdf)}}">Descargar</a></li>
+                  <li><a href="{{route('pedidos.downloadPdf',$pdf->nombre_pdf)}}">Descargar</a></li>
                 </ul>
               </div>
             </h1>

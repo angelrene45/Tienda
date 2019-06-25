@@ -44,7 +44,7 @@
               <td>{{$user->email}}</td>
               <td>
 
-              <a href="{{ route('admin.users.destroy' , ['id' => $user->id ] ) }}" class="glyphicon glyphicon-remove-circle btn btn-danger" ></a>
+              <a onclick="return confirm('Estás seguro de eliminar el usuario?')" href="{{ route('admin.users.destroy' , ['id' => $user->id ] ) }}" class="glyphicon glyphicon-remove-circle btn btn-danger" ></a>
 
               <a href="{{route('users.edit' , $user->id )}}" class="glyphicon glyphicon-pencil btn btn-warning"></a>
 

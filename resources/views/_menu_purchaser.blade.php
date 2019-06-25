@@ -52,7 +52,11 @@
                     -->
                 </li>
                 <li>
-                    <a href="{{route('pedidos.index')}}"><i class="glyphicon glyphicon-th-list"></i>  Pedidos</a>
+                    <a data-toggle="collapse" data-target="#submenu-1"><i class="glyphicon glyphicon-chevron-down"></i> Pedidos</a>
+                    <ul id="submenu-1" class="collapse">
+                        <li><a href="{{route('pedidos.index')}}"><i class="glyphicon glyphicon-th-list"></i> Mis Pedidos</a></li>
+                        <li><a href="{{route('pedidos.validar')}}"><i class="glyphicon glyphicon-warning-sign"></i> Autorizar Pedidos</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{route('carrito.mostrar')}}"><i class="glyphicon glyphicon-shopping-cart"></i> Carrito de compras

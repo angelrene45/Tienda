@@ -33,19 +33,15 @@
                             <tr>
                               <meta name="csrf-token" content="{{ csrf_token() }}">﻿
                                 <td>
-                                  <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                      <li><a onClick="ver({{$order->id}})">Ver</a></li>
-                                      <li><a onClick="editar({{$order->id}})">Editar</a></li>
-                                      <li>
-                                          <a onClick="borrar({{$order->id}})">
-                                              Eliminar
-                                          </a>
-                                       </li>
-                                    </ul>
-                                  </div>
+                                  @if($order->estatus == "En validacion")
+                                    <div class="dropdown">
+                                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                      <span class="caret"></span></button>
+                                      <ul class="dropdown-menu">
+                                        <li><a onClick="editar({{$order->id}})">Editar</a></li>
+                                      </ul>
+                                    </div>
+                                  @endif
                                 </td>
                                 <td>{{ $order->id}}</td>
                                 <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('Y-m-d') }}</td>
@@ -136,7 +132,7 @@
              });
 
             $.ajax({
-                url: '{{ url('order/get-Items') }}',
+                url: '{{ url('pedidos/detalle') }}',
                 type: 'post',
                 dataType: 'JSON',
                 data: {idPedido : idPedido},
@@ -154,55 +150,6 @@
           }
 
 
-          function borrar(idPedido){
-
-              swal({
-                title: "¿Estás seguro?",
-                text: "Una vez eliminado, no se podra recuperar el pedido!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-              })
-              .then(function(result) {
-                if (result) {
-
-                  $.ajaxSetup({
-                       headers: {
-                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                       }
-                   });
-
-                  $.ajax({
-                        url: '{{ url('order/destroy') }}',
-                        type: 'post',
-                        dataType: 'JSON',
-                        data: {idPedido : idPedido},
-
-                       success: function(data){
-                               console.log(data);
-                               swal(data.success, {
-                                 icon: "success"
-                               }).then(function() {
-                                    //despues de darle ok en el mensaje swal recarga la pagina con la tabla actualizada
-                                    location.reload();
-                                });
-                               //borramos la factura y recargamos la tabla
-                       } ,
-                       error: function(){
-                               console.log("Ha ocurrido un error! :(");
-                               swal("No se ha podido eliminar!");
-
-                       }
-                  });
-
-
-                } else {
-                  swal("Eliminación cancelada!");
-                }
-              });
-
-            }//fin funcion borrar
-
             function editar(idPedido){
               //pone el id de la factura en el titulo del modal
               $('#titleModal').text('Edicion del pedido ' + idPedido);
@@ -216,14 +163,14 @@
                });
 
               $.ajax({
-                  url: '{{ url('order/update-Item/index') }}',
+                  url: '{{ url('pedidos/edicion') }}',
                   type: 'post',
                   dataType: 'JSON',
                   data: {idPedido : idPedido},
                   success: function(response){
                     //renderiza todo el html al modal
                     $("#bodyModal").html(response.html);
-                    console.log(response);
+                    //console.log(response);
                   },
                   error: function(e){
                          console.log(e);
@@ -241,7 +188,7 @@
                     //boton actualizar dentro del Modal
 
                     $.ajax({
-                        url: '{{ url('order/update-Item') }}',
+                        url: '{{ url('pedidos/edicion/estatus') }}',
                         type: 'post',
                         dataType: 'JSON',
                         data: new FormData(this),
@@ -274,57 +221,6 @@
 
             }//fin funcion Editar
 
-            /*
-            function verpdf(rutaPdf){
-              $.ajaxSetup({
-                   headers: {
-                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                   }
-               });
-
-               //en esta peticion ajax se obtiene la ruta del servidor
-              $.ajax({
-                  url: '{{ url('order/update-Item/pdf') }}',
-                  type: 'post',
-                  data: {rutaPdf : rutaPdf},
-                  success: function(response){
-                    console.log(response);
-                    window.open(response.ruta); //abre el archivo en nueva ventana
-
-                  },
-                  error: function(e){
-                         console.log(e);
-                  }
-              });
-
-            }//fin funcion verPdf
-            */
-
-            function eliminarPdf(rutaPdf,id){
-              $.ajaxSetup({
-                   headers: {
-                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                   }
-               });
-               //id del nombre de la clase que se ocultara dando efecto de la eliminacion en tiempo real
-               var input = "."+id;
-               //en esta peticion ajax se obtiene la ruta del servidor
-              $.ajax({
-                  url: '{{ url('order/update-Item/destroy/pdf') }}',
-                  type: 'post',
-                  data: {rutaPdf : rutaPdf},
-                  success: function(response){
-                    console.log(response);
-                    swal(response.message);
-                    $(input).addClass("hidden"); //ocultamos el archivo dado el efecto de la eliminacion del archivo
-
-                  },
-                  error: function(e){
-                         console.log(e);
-                  }
-              });
-
-            }//fin funcion eliminarPdf
 
         </script>
 @endsection

@@ -12,7 +12,7 @@ class Direccion extends Model
 
     public function orden()
     {
-        return $this->belongsTo('App\Orden');
+        return $this->hasOne('App\Orden');
     }
 
 }

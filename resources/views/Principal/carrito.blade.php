@@ -159,12 +159,6 @@
 			</a>
 		</p>
 
-		@else
-			<h3 class="text-center"><span class="labeltitle2">No hay productos en el carrito</span></h3>
-		@endif
-
-
-
 		<hr>
 		<p class="text-center">
 			<a href="{{route('inicio')}}" class="btn btn-primary">
@@ -174,7 +168,22 @@
 				<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
 			</a>
 		</p>
+
+
+		@else
+			<h3 class="text-center"><span class="labeltitle2">No hay productos en el carrito</span></h3>
+			<br>
+			<p class="text-center">
+				<a href="{{route('inicio')}}" class="btn btn-primary">
+					<span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Seguir comprando
+				</a>
+			</p>
+		@endif
+
+
 	  </div>
+
+
 @endsection
 
 

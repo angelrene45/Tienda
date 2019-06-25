@@ -55,6 +55,9 @@
     background-color: #09C;
   }
 
+	.small{
+	    font-size: 8px;
+	}
 
   .labelstock{
  	font-weight: 0; /*en negritas*/

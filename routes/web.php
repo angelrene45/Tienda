@@ -90,18 +90,42 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 			'as'   => 'admin.order.index'
 
 			]);
-	Route::get('order/get-Items/{id}' , [
+	Route::post('order/get-Items' , [
 			'uses' => 'OrderController@getItems',
 			'as'   => 'admin.order.getItems'
 
 			]);
-	Route::get('order/{id}' , [
-			'uses' => 'OrderController@destroy',
-			'as'   => 'admin.order.destroy'
+	Route::post('order/update-Item/index' , [
+			'uses' => 'OrderController@updateItemIndex',
+			'as'   => 'admin.update.item.index'
 
 			]);
+	Route::post('order/update-Item' , [
+			'uses' => 'OrderController@updateItem',
+			'as'   => 'admin.update.item'
 
-});
+			]);
+	Route::post('order/update-Item/pdf' , [
+			'uses' => 'OrderController@downloadPdf',
+			'as'   => 'admin.order.pdf'
+
+			]);
+	Route::get('order/update-Item/pdf/{name}' , [
+			'uses' => 'OrderController@downloadPdf',
+			'as'   => 'admin.order.downloadPdf'
+
+			]);
+	Route::post('order/update-Item/destroy/pdf' , [
+			'uses' => 'OrderController@destroyPdf',
+			'as'   => 'admin.order.pdf.destroy'
+
+			]);
+	Route::post('order/destroy' , [
+			'uses' => 'OrderController@destroy',
+			'as'   => 'admin.order.destroy'
+			]);
+
+}); //fin de las rutas admin
 
 //Carrito----------------
 
@@ -162,6 +186,13 @@ Route::post('orden/detalle' , [
 
 			]);
 
+Route::post('orden/finalizar' , [
+			'middleware' => 'auth',
+			'uses' => 'CarritoController@ordenFinalizar',
+			'as'   => 'orden.finalizar'
+
+			]);
+
 //paypal-----------------
 Route::get('payment' , [
 			'uses' => 'PaypalController@postPayment',
@@ -174,6 +205,38 @@ Route::get('payment/status' , [
 			'as'   => 'payment.status'
 
 			]);
+
+//Ruta Pedidos USUARIOS
+Route::get('pedidos/index' , [
+			'uses' => 'PedidosController@index',
+			'as'   => 'pedidos.index'
+
+			]);
+Route::post('pedidos/detalle' , [
+		'uses' => 'PedidosController@getItems',
+		'as'   => 'pedido.detalle'
+
+		]);
+Route::get('pedidos/validar' , [
+		'uses' => 'PedidosController@indexValidar',
+		'as'   => 'pedidos.validar'
+
+		]);
+
+Route::post('pedidos/edicion' , [
+		'uses' => 'PedidosController@updateItemIndex',
+		'as'   => 'pedidos.item.edit'
+		]);
+
+Route::post('pedidos/edicion/estatus' , [
+		'uses' => 'PedidosController@updateItem',
+		'as'   => 'pedidos.status.edit'
+		]);
+Route::get('pedidos/ver/pdf/{name}' , [
+		'uses' => 'PedidosController@downloadPdf',
+		'as'   => 'pedidos.downloadPdf'
+
+		]);
 
 Route::get('sendemail', function () {
 

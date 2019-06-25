@@ -48,7 +48,7 @@ class UsersController extends Controller
         ]);
 
         $user = new User($request->all());
-        $user->password = bcrypt($request['contraseña']);
+        $user->password = bcrypt($request['password']);
         $user->save();
 
         flash('El usuario ' .$user->name. ' se ha agregado satisfactoriamente')->success()->important();

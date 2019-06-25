@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-<br>
-
 @section('principal')
 
-		<div class="container text-center principaldetalle">
+		<div class="text-center principaldetalle">
 			<div class="page-header">
-			  <h1><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del producto</h1>
+			  <h1 class="labeltitle2"><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del producto</h1>
 			</div>
 
 			<div class="row">
@@ -34,56 +32,32 @@
 			  <div class="col-md-4">
 
 				  <div class="product-block">
-					<h3>{{$producto->nombre}}</h3><hr>
+					<h3 class="labeltitle2">{{$producto->nombre}}</h3><hr>
 					<div class="producto-info panel">
 
-						Talla:
-						<p>
 
 				<form method="POST" action="{{route('carrito.añadir' , $producto->slug)}}">
 				    {{ csrf_field() }}
 				    {{ method_field('GET') }}
-				    <select id="talla" name="talla">
-
-							@foreach($tallas as $talla)
-			                    @foreach($producto->tallas as $miTalla)
-
-									@if($miTalla->id == $talla->id)
-				                       <option value="{{$talla->talla}}">{{ $talla->talla }}</option>
-				                    @endif
-
-			                    @endforeach
-			                @endforeach
-					</select>
 
 
-
-			            </p><hr>
-
-
-						<p>{{ $producto->descripcion }}</p><hr>
+						<p class="labelstock">Descripcion: <br><br>{{ $producto->descripcion }}</p><hr>
 						<h3>
-							<span class="label label-success">Precio: ${{ number_format($producto->precio,2) }}</span><hr>
+							<span class="label label-info labelstock">Precio: ${{ number_format($producto->precio,2) }}</span><hr>
 						</h3><br>
 						<p>
-							<button class="boton_carrito" type="submit" class="btn btn-primary">Añadir al carrito</button>
-						</p><br><hr><br>
+							<button type="submit" class="btn btn-default btn-add-car"><i class="glyphicon glyphicon-shopping-cart"></i> Añadir al carrito</button>
+						</p>
 				</form>
 
 
 
-						<p> DISPONIBILIDAD: <br>{{$producto->stock}}</p> <br>
-
-	                    @if($producto->stock < 10)
-							<label class="labelstock">*Este artículo cuenta con poca existencia</label>
-	                    @endif
-	                  </div>
+	      </div>
 
 						<br>
-	                      <a href="{{route('producto.pdf',['producto' => $producto->id]) }}" class="btn btn-danger">
-	                     <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> PDF
-                     	</a>
-
+                <a href="{{route('producto.pdf',['producto' => $producto->id]) }}" class="btn btn-danger">
+                 <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> PDF
+               	</a>
 
 					</div>
 				</div>
