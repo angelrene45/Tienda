@@ -66,6 +66,7 @@ class InicioController extends Controller
 
         $pdf = \PDF::loadView('Productos.vistapdf' , $data);
 
+
         return $pdf->download($producto->codigo.'.pdf');
     }
 
