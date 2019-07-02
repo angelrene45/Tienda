@@ -12,6 +12,22 @@
 
 }
 
+.imghover{
+	padding:2px;
+	border-radius:10px;
+	-webkit-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	-ms-transition:-webkit-transform 0.3s ease-in-out 0.1s;
+	/*La transicion de las imagenes cuando crecer y decrecer*/
+	box-shadow:#999 5px 5px 10px;
+}
+
+.imghover:hover{
+	background:#FAFAFA;
+	-webkit-transform:scale(1.2); /*hace que la imagen crezca*/
+	-ms-transform:scale(1.2);
+}
+
+
 /*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
 .imgindex:hover{
 
@@ -21,39 +37,6 @@
 	box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
 }
 
-
-.principaldetalle{
-	width: 96%;
-	min-height: auto;
-	border-radius:20px;
-	/*border: 1px solid #DDD;*/
-	margin:0 auto;
-	margin-left: 2%;
-	margin-top: 50px;
-
-	background-color:#CC10;
-   	text-align: center;
-
-   	font: normal normal 18px quicksand;  /*fuente*/
-	letter-spacing: 2px; /*separación entre las letras*/
-	text-align: center; /*podemos cambiar por right. Si lo queremos a la izq. borrar esta línea*/
-	text-transform: uppercase;
-
-}
-
-.boton_carrito{
-	text-decoration: none;
-    padding: 10px;
-
-    color: #ffffff;
-    background-color: #1A1A1A;
-    border-radius: 8px;
-}
-
-.boton_carrito:hover{
-    color: #ffffff;
-    background-color: #09C;
-  }
 
 	.small{
 	    font-size: 8px;
@@ -94,7 +77,7 @@ font-family: Georgia, "Times New Roman", Times, serif;
 
 h1,h2,h3,h4,h5,h6
 {
-	font-family: 'Lobster Two', cursive;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .busqueda-producto img{

@@ -23,9 +23,9 @@
                 @else
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#"><i class="glyphicon glyphicon-user"></i> Edit Profile</a></li>
+                  <!--  <li><a href="#"><i class="glyphicon glyphicon-user"></i> Edit Profile</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Change Password</a></li>
-                    <li class="divider"></li>
+                    <li class="divider"></li> -->
                     <li>
                       <a href="{{ route('logout') }}" onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">

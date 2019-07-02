@@ -13,30 +13,20 @@ class InicioController extends Controller
 {
 	public function inicio(){
 
-				$productos = Producto::
-										orderBy('id', 'desc')
-										->limit(6)
-										->get();
-
-				$masvendido = 0;
+				//$productos = Producto::take(2)->paginate(2);
+				$productos = DB::table('productos')->inRandomOrder()->limit(4)->get();
 
 				if(count($productos)>0){
 					//$productos = Producto::orderBy('id', 'desc')->paginate(3);
 
-	        $productos->each(function($productos){
-	            $productos->categoria;
-	            $productos->imagenes;
+	        $productos->each(function($producto){
+	            $producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
 	        });
 
-	        $max = Producto::max('vendido');
-	        $masvendido = Producto::where('vendido' , '>=' , $max)->get();
-
-	        $masvendido->each(function($masvendido){
-	            $masvendido->imagenes;
-	        });
 				}
 
-    		return view('index')->with(['productos'=>$productos , 'masvendido' => $masvendido]);
+
+    		return view('index')->with(['productos'=>$productos]);
     }
 
     public function descripcion($id){
@@ -74,22 +64,42 @@ class InicioController extends Controller
 
         	$filtro = $request->Filtro;
         	$texto = $request->Texto;
-
-          $productos = Producto::search($texto)->paginate(9);
-          //$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
-					//dd($productos);
-          $productos->each(function($productos){
-              $productos->categoria;
-              $productos->imagenes;
-          });
+        	$categoriaid = $request->Categoria;
 
 
-	      	return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $texto] );
+
+					if($texto == NULL){ //BUSCAMOS POR CATEGORIA
+						$productos = Producto::where('categoria_id','=',$categoriaid)->paginate(9);
+						//$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
+						//dd($productos);
+						$productos->each(function($productos){
+								$productos->categoria;
+								$productos->imagenes;
+						});
+						return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $categoriaid] );
+
+					}else{ //buscamos por filtro y texto
+
+						$productos = Producto::search($texto)->paginate(9);
+						//$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
+						//dd($productos);
+						$productos->each(function($productos){
+								$productos->categoria;
+								$productos->imagenes;
+						});
+
+
+						return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $texto] );
+					}
+
+
     }
 
 		public function indexBusqueda(Request $request){
 
-				return view('Principal.indexBusqueda');
+				$categorias = Categoria::all();
+
+				return view('Principal.indexBusqueda')->with(['categorias'=>$categorias]);
 
 		}
 

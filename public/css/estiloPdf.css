@@ -1,8 +1,8 @@
 /*estilos pdf*/
 
 body{
-   background-color:#CC10;
-   text-align: center;
+    background-color:#CC10;
+    text-align: center;
     font: normal normal 18px quicksand;  /*fuente*/
   	letter-spacing: 2px; /*separación entre las letras*/
   	text-align: center; /*podemos cambiar por right. Si lo queremos a la izq. borrar esta línea*/
@@ -26,4 +26,8 @@ td{
 
 hr{
 	 color: #123455;
+}
+
+.smalltext{
+  font-size: 12px;
 }

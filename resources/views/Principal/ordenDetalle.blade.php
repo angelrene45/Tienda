@@ -8,6 +8,15 @@
 				<h1 class="labeltitle2"><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del pedido</h1>
 			</div>
 
+			<div class="col-md-12">
+				<p class="text-center">
+					<a href="{{route('carrito.cotizacion')}}" class="btn btn-default">
+						<span class="glyphicon glyphicon-file" aria-hidden="true"></span>Generar cotización
+					</a>
+				</p>
+			</div>
+
+
 			<div class="row">
 				<div class="
 						@if(Auth::user()->type == "purchaser")

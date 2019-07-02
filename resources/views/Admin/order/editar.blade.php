@@ -1,4 +1,4 @@
-<form id="form-actualizar"  method="POST" role="form" autocomplete="off" enctype="multipart/form-data">
+<form id="form-actualizar" action="{{route('admin.update.item')}}"  method="POST" role="form" autocomplete="off" enctype="multipart/form-data">
 {{csrf_field()}}
 
   <div class="form-group">

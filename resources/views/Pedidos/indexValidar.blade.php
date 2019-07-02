@@ -7,7 +7,7 @@
 @section('content')
         <div class="page-header">
             <h1 class="text-center labeltitle2">
-                <i class="glyphicon glyphicon-shopping-cart"></i> PEDIDOS
+                <i class="glyphicon glyphicon-shopping-cart"></i> AUTORIZAR PEDIDOS
             </h1>
         </div>
 

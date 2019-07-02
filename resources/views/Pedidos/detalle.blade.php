@@ -1,5 +1,14 @@
  <div class="text-center">
 
+   <div class="col-md-12">
+     <p class="text-center">
+       <a href="{{route('pedido.pdf',['id' => $orden->id])}}" class="btn btn-default">
+         <span class="glyphicon glyphicon-file" aria-hidden="true"></span>Generar pdf
+       </a>
+     </p>
+   </div>
+
+
    <div class="row">
      <div class="
          @if(Auth::user()->type == "purchaser")
@@ -13,6 +22,8 @@
          </table>
        </div>
      </div>
+
+
      @if(Auth::user()->type != "purchaser")
      <div class="col-md-6">
        <div class="table-responsive">
@@ -148,8 +159,12 @@
       @endif
 
       @if(count($orden->orden_pdf)>0)
-        <label for="comment">Archivos</label>
-        <div class="row">
+        <div class="col-md-9">
+          <div class="table-responsive">
+            <h3 class="labeltitle2">Archivos</h3>
+          </div>
+
+        </div>
         @foreach($orden->orden_pdf as $pdf)
 
           <div class="col-md-2 {{$pdf->id}}">

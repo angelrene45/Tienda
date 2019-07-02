@@ -8,6 +8,7 @@ use App\OrdenItem;
 use App\Direccion;
 use App\Orden_pdfs;
 use File;
+use Laracasts\Flash\Flash;
 
 class OrderController extends Controller
 {
@@ -83,7 +84,7 @@ class OrderController extends Controller
         $returnHTML = view('Admin.order.editar')->with(['orden'=>$orden])->render();
 
         return response()->json([
-          'success'=>'Data is successfully added',
+          'message'=>'Data is successfully added',
           'html' => $returnHTML,
           'orden' => $orden
         ]);
@@ -91,12 +92,6 @@ class OrderController extends Controller
     }
 
     public function updateItem(Request $request){
-      if($request->ajax()){
-
-          /*
-          $this->validate($request, [
-          'pdfs' => 'max:6|mimes:pdf|'
-        ]); */
 
           $idPedido = $request->idPedido;
           $estatus = $request->estatus;
@@ -106,6 +101,10 @@ class OrderController extends Controller
 
           $orden->estatus = $estatus;
           $orden->guias = $guias;
+
+          if($orden->guias == NULL){
+            $orden->guias = "";
+          }
           $orden->save();
 
           //manipulacion de pdf
@@ -132,14 +131,10 @@ class OrderController extends Controller
 
           }
 
-          return response()->json([
-            'message'=>'Pedido Actualizado',
-            'idPedido'=>$idPedido,
-            'estatus'=>$estatus,
-            'guias'=>$guias,
-            'pdfs'=>$request->file('pdfs')
-          ]);
-      }
+          Flash::success('Se ha actualizado el pedido exitosamente!')->important();
+
+          return redirect()->route('admin.order.index');
+
     }
 
     public function downloadPdf($name){

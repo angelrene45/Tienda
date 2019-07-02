@@ -301,7 +301,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">¡El usuario {{$nameUser}} genero el pedido # {{$ordenid}} !.</span>
+    <span class="preheader">¡El comprador {{$nombre}} valido el pedido # {{$ordenid}}!</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -321,8 +321,8 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>¡El usuario {{$nameUser}} genero el pedido # {{$ordenid}} !,</p>
-                        <p>Entra el portal de Sanvik e ingresa a la pestaña de pedidos para validación desde el Siguiente enlace!.</p>
+                        <p>¡El comprador {{$nombre}} valido el pedido # {{$ordenid}} !,</p>
+                        <p>Entra el portal de Sanvik e ingresa a la pestaña de pedidos para ver el estatus desde el Siguiente enlace!.</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -338,7 +338,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>Es necesaria la validación del pedido</p>
+                        <p>Estatus del pedido: {{$estatus}}</p>
                       </td>
                     </tr>
                   </table>

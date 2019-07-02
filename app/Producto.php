@@ -24,7 +24,7 @@ class Producto extends Model
     }
 
     public function scopeSearch($query , $producto){
-        return $query->where('codigo' , 'LIKE','%'.$producto.'%')->orwhere('descripcion', 'like','%'.$producto.'%');
+        return $query->where('codigo' , 'LIKE','%'.$producto.'%')->orwhere('nombre', 'like','%'.$producto.'%');
     }
 
     public function imagenes(){

@@ -9,6 +9,8 @@ use App\Direccion;
 use App\Orden_pdfs;
 use File;
 use Auth;
+use Illuminate\Support\Facades\Mail;
+use DB;
 
 class PedidosController extends Controller
 {
@@ -34,7 +36,7 @@ class PedidosController extends Controller
       $idUser = auth()->user()->id;
 
       if($typeUser == "purchaser"){//compradores
-        $ordenes = Orden::where('user_comp_id', $idUser)->where('user_id','!=',$idUser)->get();
+        $ordenes = Orden::where('user_comp_id', $idUser)->get();
         $ordenes->each(function($ordenes){
             $ordenes->direccion;
             $ordenes->comprador;
@@ -105,16 +107,28 @@ class PedidosController extends Controller
 
     public function updateItem(Request $request){
       if($request->ajax()){
-          $idPedido = $request->idPedido;
-          $estatus = $request->estatus;
-          $orden = Orden::findOrFail($idPedido);
 
-          $orden->estatus = $estatus;
-          $orden->save();
+        $idPedido = $request->idPedido;
+        $estatus = $request->estatus;
+        $orden = Orden::findOrFail($idPedido);
 
-          return response()->json([
-            'message'=>'Pedido Actualizado'
-          ]);
+        $orden->estatus = $estatus;
+        $orden->save();
+
+        $typeUser = Auth::user()->type;
+        $namePurchaser = Auth::user()->name;
+
+        if($typeUser == "purchaser" AND $estatus == "Validada"){
+          $this->sendEmailToAdmin($estatus,$orden->id,$namePurchaser);
+        }
+
+
+        return response()->json([
+          'message'=>'Pedido Actualizado',
+          'id' => $orden->id,
+          'name'=> $namePurchaser,
+          'estatus' => $estatus
+        ]);
       }
     }
 
@@ -160,4 +174,52 @@ class PedidosController extends Controller
 
       return $totalusd;
     }
+
+    private function sendEmailToAdmin($estatus,$ordenid,$namePurchaser){
+
+      $data = array(
+          'estatus' => $estatus,
+          'ordenid' => $ordenid,
+          'nombre' => $namePurchaser
+      );
+
+      Mail::send('emails.notifyAdminStatus', $data, function ($message) use ($ordenid){
+              $message->from('tienda@gova.com.mx', 'Portal Sandvik');
+              $message->to('sistemas@gova.com.mx')->subject('Pedido #'.$ordenid. ' Validado');
+          });
+
+    }
+
+    public function pedidopdf($id){
+      $idPedido = $id;
+
+      $orden = Orden::where('id',$idPedido)->first();
+      $orden->direccion;
+      $orden->comprador;
+      $orden->user;
+
+
+      $items = OrdenItem::with('producto')->where('orden_id', $idPedido)->get();
+
+      $items->each(function($item){
+            $item->imagen = DB::table('imagenes')->where('producto_id',$item->producto_id)->first();
+      });
+
+      $totalMXN = $this->totalMXN($items);
+      $totalUSD = $this->totalUSD($items);
+
+
+      $data = ['orden' => $orden ,'items' => $items , 'totalMXN' => $totalMXN,'totalUSD'=> $totalUSD];
+
+      //dd($data);
+
+      //return view('Principal.cotizacionpdf',$data);
+
+      $pdf = \PDF::loadView('Principal.pedidopdf' , $data);
+
+      return $pdf->download('pedido.pdf');
+
+
+    }
+
 }

@@ -19,13 +19,24 @@
               <div class="form-group">
                 <label class="control-label col-sm-offset-2 col-sm-2" for="email">Buscar por:</label>
                 <div class="col-sm-4">
-                  <select class="form-control chosen-select2" id="Filtro" name="Filtro">
+                  <select class="form-control select-search" id="Filtro" name="Filtro">
                       <option value="codigo">codigo</option>
-                      <option value="descripcion">descripcion</option>
+                      <option value="nombre">nombre</option>
+                      <option value="categoria">categoria</option>
                   </select>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group hidden select-categoria">
+                <label class="control-label col-sm-offset-2 col-sm-2">Categoria:</label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="Categoria" name="Categoria">
+                      @foreach($categorias as $categoria)
+                        <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group input-text">
                 <label class="control-label col-sm-offset-2 col-sm-2" for="pwd">Texto:</label>
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="Texto" name="Texto">
@@ -51,6 +62,19 @@
         <script>
         $(".chosen-select2").chosen({
           no_results_text: "Oops, no se econtro esa categoria!"
+        });
+        $(".chosen-select3").chosen({
+          no_results_text: "Oops, no se econtro esa categoria!"
+        });
+
+        $('.select-search').on('change', function() {
+          if(this.value == "categoria"){
+            $(".select-categoria").removeClass("hidden");
+            $(".input-text").addClass("hidden");
+          }else{
+            $(".select-categoria").addClass("hidden");
+            $(".input-text").removeClass("hidden");
+          }
         });
 
         </script>

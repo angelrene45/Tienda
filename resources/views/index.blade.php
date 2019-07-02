@@ -50,95 +50,60 @@
 
     @section('principal')
 
+		<br>
 				<div class="row">
-            <div class="col-md-12">
-                <h2 class="labeltitle">Ultimos articulos</h2>
-            </div>
-				</div>
+					<div class="col-md-2 col-xs-2">
+							<img src="{{asset('/images/sandvik-logo.png')}}" width="100%" />
+					</div>
+          <div class="col-md-8 col-xs-8">
+              <h2 class="text-center">Shel Seguridad e Higiene S.A. de C.V.</h2>
+							<h4 class="text-center">Portal Sandvik</h4>
+          </div>
+					<div class="col-md-2 col-xs-2">
+							<img src="{{asset('/images/shel-logo.png')}}" width="100%" />
+					</div>
 
+					<div class="col-md-12 col-xs-12">
+							<h5><strong>Funciones del sitio:</strong></h5>
+					</div><br>
 
-            @foreach($productos as $producto)
-						<form method="POST" action="{{route('carrito.add' , $producto->slug)}}">
-							{{ csrf_field() }}
-							{{ method_field('GET') }}
-							<div class="row imgindex" >
-	            <div class="col-sm-3 col-md-3">
+					<div class="col-md-12 col-xs-12">
+							<a href="{{route('producto.indexBusqueda')}}">Busqueda del producto</a>
+							<p>Buscar un producto por codigo, categoria o utilizando el nombre. </p>
+					</div>
+					<div class="col-md-12 col-xs-12">
+							<a href="{{route('carrito.mostrar')}}">Carrito de compras</a>
+							<p>Revisar los artículos en el carrito de compras. </p>
+					</div>
+					<div class="col-md-12 col-xs-12">
+							<a href="{{route('pedidos.index')}}">Pedidos</a>
+							<p>Ver el estatus de ordenes y productos. </p>
+					</div>
 
+			</div>
 
-	                <a href="{{route('producto.descripcion',['id' => $producto->id , 'slug' => $producto->slug])}}">
-										@if(count($producto->imagenes)==0)
-											<img class="center-block" height="180px" width="200px" src="{{ URL::to('/') }}/images/image-unavailable.png"   alt="">
-										@else
-		                	@foreach($producto->imagenes as $imagen)
-		                    <img class="center-block" height="180px" width="200px" src="{{ URL::to('/') }}/images/productos/{{$imagen->imagen}}"   alt="">
-		                    @break
-		                  @endforeach
-										@endif
-	                </a>
-							 </div>
+			<br>
 
-							 <h3 class="labeltitle center-block">{{$producto->nombre}}</h3>
-							 <span class="labelstock center-block hidden">Existencia: {{$producto->stock}}</span>
-							 <br>
+				@if(count($productos) > 0)
+					<div class="row">
+						<div class="col-md-12 col-xs-12">
+							<h5><strong>Algunos de nuestros productos:</strong></h5><br>
+						</div>
+						@foreach($productos as $producto)
+						<div class="col-md-3 col-xs-6">
+							<a href="{{route('producto.descripcion',['id' => $producto->id , 'slug' => $producto->slug])}}" title="{{$producto->codigo}}">
+								@if($producto->imagen==NULL)
+									<img class="center-block  imghover" width="80%" height="200px"   src="{{ URL::to('/') }}/images/image-unavailable.png" alt="{{$producto->codigo}}">
+								@else
+									<img class="center-block  imghover" width="80%" height="200px"  src="{{ URL::to('/') }}/images/productos/{{$producto->imagen->imagen}}" alt="{{$producto->codigo}}">
+								@endif
+							</a>
+						</div>
+						@endforeach
+					</div>
+			    @else
+			@endif
 
-							 <div class="col-sm-9 col-md-9">
-									<table class="table table-condensed">
-									  <tr>
-									    <th>Codigo</th>
-									    <th>Precio</th>
-									    <th>Cantidad</th>
-											<th></th>
-									  </tr>
-									  <tr>
-									    <td>{{$producto->codigo}}</td>
-									    <td>${{number_format($producto->precio,2)}}
-												<span class="label
-													@if($producto->moneda == "MXN")
-														label-success
-													@elseif($producto->moneda == "USD")
-														label-danger
-													@else
-														label-info
-													@endif
-													">{{$producto->moneda}}
-													<input class="hidden" type="text" name="moneda" id="moneda" value="{{$producto->moneda}}">
-												</span>
-											</td>
-									    <td><input id="cantidad" name="cantidad" type="number" value="1" min="1" max="10000"></td>
-											<td>
-												<button type="submit" class="btn btn-default btn-add-car"><i class="glyphicon glyphicon-shopping-cart"></i> Añadir al carrito</button>
-											</td>
-									  </tr>
-									</table>
-								</div>
-							</div>
-						</form>
-						<br><br>
-            @endforeach
-
-        <hr>
-
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Todos los derechos reservados &copy; Shel Seguridad e Higiene</p>
-                </div>
-            </div>
-        </footer>
-
-				<!-- Call to Action Section -->
-        <div class="well">
-            <div class="row">
-                <div class="col-md-8">
-                    <p>Encuentra todos lo productos que buscas a un precio increible!</p>
-                </div>
-
-            </div>
-        </div>
 
 @endsection
 

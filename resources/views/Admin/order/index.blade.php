@@ -223,7 +223,7 @@
                   success: function(response){
                     //renderiza todo el html al modal
                     $("#bodyModal").html(response.html);
-                    console.log(response);
+                    //console.log(response);
                   },
                   error: function(e){
                          console.log(e);
@@ -231,6 +231,7 @@
               }).done(function(response){
                   //mostramos el modal con los datos del pedido
                   $('#ModalPedido').modal('show');
+                  /*
                   $('#form-actualizar').on('submit',function(event){
                     //prevenimos el evento submit
                     event.preventDefault();
@@ -270,6 +271,7 @@
 
                         }); //fin de la peticion Ajax
                   });
+                  */
                 }); //fin de la peticion Ajax
 
             }//fin funcion Editar

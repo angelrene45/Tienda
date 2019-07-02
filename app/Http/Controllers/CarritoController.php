@@ -35,14 +35,13 @@ class CarritoController extends Controller
     //agregar item
     public function añadir(Producto $producto, Request $request){
 
-    	$carrito = \Session::get('carrito');
-    	$producto->cantidad = 1;
-      $producto->talla = $request->talla;
-    	$producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
-    	$carrito[$producto->id] = $producto;
+      $carrito = \Session::get('carrito');
+      $producto->cantidad = $request->cantidad;
+      $producto->moneda = $request->moneda;
+      $producto->imagen = DB::table('imagenes')->where('producto_id',$producto->id)->first();
+      $carrito[$producto->id] = $producto;
 
-    	\Session::put('carrito' , $carrito);
-
+      \Session::put('carrito' , $carrito);
 
     	return redirect()->route('carrito.mostrar');
     }
@@ -208,10 +207,10 @@ class CarritoController extends Controller
       $carrito = \Session::get('carrito');
 
 
-      //$this->saveOrder($carrito,$status,$direccionid,$compradorid);
-      //\Session::forget('carrito');
+      $ordenid = $this->saveOrder($carrito,$status,$direccionid,$compradorid);
+      \Session::forget('carrito');
 
-      $this->sendEmailToPurchaser($compradoremail,$nameUser);
+      $this->sendEmailToPurchaser($compradoremail,$nameUser,$ordenid);
 
       flash('Pedido realizado de forma correcta')->success()->important();
       return redirect('inicio/inicio');
@@ -247,6 +246,8 @@ class CarritoController extends Controller
             $this->saveOrderItem($item, $orden->id);
         }
 
+        return $orden->id;
+
     }
 
     private function saveOrderItem($item, $orden_id)
@@ -265,22 +266,18 @@ class CarritoController extends Controller
       $producto->save();
     }
 
-    private function sendEmailToPurchaser($emailComprador,$nameUser){
+    private function sendEmailToPurchaser($emailComprador,$nameUser,$ordenid){
 
       $data = array(
           'email' => $emailComprador,
-          'nameUser' => $nameUser
+          'nameUser' => $nameUser,
+          'ordenid' => $ordenid
       );
 
       Mail::send('emails.validacion', $data, function ($message) use ($emailComprador) {
               $message->from('tienda@gova.com.mx', 'Pedido pendiente');
               $message->to($emailComprador)->subject('Validación de orden');
           });
-
-
-
-
-      dd("Enviado");
 
     }
 }
