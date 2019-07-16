@@ -202,6 +202,7 @@ class CarritoController extends Controller
       if($type == "purchaser"){
         $status = "Validada";
         $compradorid = \Auth::user()->id;
+        $compradoremail = \Auth::user()->email;
       }
 
       $carrito = \Session::get('carrito');
@@ -210,7 +211,9 @@ class CarritoController extends Controller
       $ordenid = $this->saveOrder($carrito,$status,$direccionid,$compradorid);
       \Session::forget('carrito');
 
-      $this->sendEmailToPurchaser($compradoremail,$nameUser,$ordenid);
+      if($type != "purchaser"){
+        $this->sendEmailToPurchaser($compradoremail,$nameUser,$ordenid);
+      }
 
       flash('Pedido realizado de forma correcta')->success()->important();
       return redirect('inicio/inicio');

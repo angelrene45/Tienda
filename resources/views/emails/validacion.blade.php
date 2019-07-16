@@ -330,7 +330,7 @@
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                     <tr>
-                                      <td> <a href="http://127.0.0.1:8000" target="_blank">Ingresa al portal Sandvik</a> </td>
+                                      <td> <a href="https://www.sandvik.shel.com.mx/" target="_blank">Ingresa al portal Sandvik</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>

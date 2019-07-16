@@ -10,17 +10,29 @@
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">Productos</div>
-        <div class="panel-body">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Productos</div>
+          <div class="panel-body">
 
+          <div class="col-md-8">
+            <a class="btn btn-primary" href="{{route('products.create')}}" role="button">
+               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
+               </span>
+             </a>
+          </div>
 
-           <a class="btn btn-primary" href="{{route('products.create')}}" role="button">
-              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
-              </span>
-            </a>
+        <div class="col-md-4">
+          <form action="{{route('products.index')}}" method="get">
+              <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Buscar por codigo o Nombre...">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+              </div><!-- /input-group -->
+            </form>
+        </div>
 
-
+    <div class="col-md-12">
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
@@ -69,14 +81,15 @@
 
 
         <center>
-          {{ $productos->links() }}
+          {{ $productos->appends(['search'=>$search])->links() }}
         </center>
       </div>
+    </div>
 
 
-        </div>
+    </div>
 
-        </div>
+    </div>
 
 
       </div>

@@ -36,7 +36,9 @@ class PedidosController extends Controller
       $idUser = auth()->user()->id;
 
       if($typeUser == "purchaser"){//compradores
-        $ordenes = Orden::where('user_comp_id', $idUser)->get();
+        $ordenes = Orden::where('user_comp_id', $idUser)
+        ->where('user_id','!=',$idUser) //validamos que no muestre sus propios pedidos el comprador
+        ->get();
         $ordenes->each(function($ordenes){
             $ordenes->direccion;
             $ordenes->comprador;
@@ -217,7 +219,7 @@ class PedidosController extends Controller
 
       $pdf = \PDF::loadView('Principal.pedidopdf' , $data);
 
-      return $pdf->download('pedido.pdf');
+      return $pdf->download('pedido'.$idPedido.'.pdf');
 
 
     }

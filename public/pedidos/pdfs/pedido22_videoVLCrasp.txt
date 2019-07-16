@@ -1,0 +1,13 @@
+raspivid -o - -t 99999 -w 640 -h 360 -fps 25|cvlc stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8090}' :demux=h264
+
+
+raspivid -o - -t 0 -n -w 320 -h 240 -fps 30| cvlc -vvv stream:///dev/stdin --sout '#rtp{sdp=rtsp://:8000/}' :demux=h264
+
+
+https://helloraspberrypi.blogspot.com/2019/02/raspberry-pi-stream-video-to-vlc-player.html
+
+http://helloraspberrypi.blogspot.com/2015/05/stream-raspberry-pi-camera-module-video.html
+
+https://raspberry-projects.com/pi/pi-hardware/raspberry-pi-camera/streaming-video-using-vlc-player
+
+https://www.youtube.com/watch?v=S3zNBGfPFxI

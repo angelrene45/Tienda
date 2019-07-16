@@ -9,6 +9,8 @@ use App\Direccion;
 use App\Orden_pdfs;
 use File;
 use Laracasts\Flash\Flash;
+use App\User;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -93,12 +95,23 @@ class OrderController extends Controller
 
     public function updateItem(Request $request){
 
+          //obtiene los datos del formulario
           $idPedido = $request->idPedido;
           $estatus = $request->estatus;
           $guias = $request->guias;
 
           $orden = Orden::findOrFail($idPedido);
 
+          //verifica los cambios que hubo en el pedido y notifica al usuario de que cambios en especifico
+          $mensaje = "";
+          if($orden->estatus != $estatus){
+            $mensaje = $mensaje."-Estatus ";
+          }
+          if($orden->guias != $guias){
+            $mensaje = $mensaje."-Numero de guias " ;
+          }
+
+          //Actualiza la orden
           $orden->estatus = $estatus;
           $orden->guias = $guias;
 
@@ -107,9 +120,12 @@ class OrderController extends Controller
           }
           $orden->save();
 
+
+
           //manipulacion de pdf
           if($request->file('pdfs'))
           {
+              $mensaje = $mensaje."-Archivo " ;
 
               $pdfs = $request->file('pdfs');
 
@@ -129,6 +145,12 @@ class OrderController extends Controller
                   $pdf_db->save();
               }
 
+          }
+
+          $user = User::findOrFail($orden->user_id);
+
+          if($mensaje != ""){
+            $this->sendEmailToUser($orden,$user,$mensaje);
           }
 
           Flash::success('Se ha actualizado el pedido exitosamente!')->important();
@@ -203,7 +225,21 @@ class OrderController extends Controller
         }
       }
 
-
       return $totalusd;
+    }
+
+    private function sendEmailToUser($orden,$user,$mensaje){
+
+      $data = array(
+          'orden' => $orden,
+          'user' => $user,
+          'mensaje' => $mensaje
+      );
+
+      Mail::send('emails.notifyUserOrder', $data, function ($message) use ($user,$orden){
+              $message->from('tienda@gova.com.mx', 'Portal Sandvik');
+              $message->to($user->email)->subject('Pedido #'.$orden->id. ' Actualizado');
+      });
+
     }
 }

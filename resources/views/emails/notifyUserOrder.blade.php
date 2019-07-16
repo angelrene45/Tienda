@@ -301,7 +301,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">¡El comprador {{$nombre}} valido el pedido # {{$ordenid}}!</span>
+    <span class="preheader">¡Hola {{$user->name}}!</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -321,8 +321,10 @@
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                        <p>¡El comprador {{$nombre}} valido el pedido # {{$ordenid}} !,</p>
-                        <p>Entra el portal de Sanvik e ingresa a la pestaña de pedidos para ver el estatus desde el Siguiente enlace!.</p>
+                        <p>¡Hola {{$user->name}} el pedido #{{$orden->id}} se ha actualizado!,</p>
+                        <p>Tu pedido ha sido actualizado por el administrador del portal!.</p>
+                        <p>Se realizaron los siguientes cambios:</p>
+                        <p>{{$mensaje}}</p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
@@ -338,7 +340,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>Estatus del pedido: {{$estatus}}</p>
+                        <p>Estatus del pedido: {{$orden->estatus}}</p>
                       </td>
                     </tr>
                   </table>

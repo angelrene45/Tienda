@@ -21,15 +21,19 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $producto = Producto::paginate(7);
+        $search = $request->search;
+
+
+        $producto = Producto::search($search)
+          ->paginate(7);
         //nos ayudara a saber las tallas de cada producto
         $producto->each(function($producto){
             $producto->tallas;
         });
 
-        return view('Productos.index')->with(['productos' => $producto]);
+        return view('Productos.index')->with(['productos' => $producto,'search' => $search]);
     }
 
     /**

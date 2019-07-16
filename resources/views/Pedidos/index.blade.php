@@ -30,7 +30,7 @@
                             <tr>
                               <meta name="csrf-token" content="{{ csrf_token() }}">﻿
                                 <td>{{ $order->id}}</td>
-                                <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('Y-m-d') }}</td>
+                                <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->created_at)->format('d-m-Y') }}</td>
                                 <td>{{ $order->user->name }}</td>
                                 <td>{{ $order->comprador->name }}</td>
                                 <td>{{ $order->estatus }}</td>
