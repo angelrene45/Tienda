@@ -6,6 +6,14 @@
 
   @section('content')
 
+      @if(count($errors) > 0)
+        <div class="alert alert-danger">
+          Error en la validación del archivo
+          @foreach($errors->all() as $error)
+            <li>{{$error}}</li>
+          @endforeach
+        </div>
+      @endif
 
       <div class="row">
         <div class="col-md-12">
@@ -30,6 +38,19 @@
                 </span>
               </div><!-- /input-group -->
             </form>
+        </div>
+
+        <div class="col-md-6">
+          <form  class="form-inline" method="post" enctype="multipart/form-data" action="{{route('productos.importExcel')}}">
+            {{csrf_field()}}
+            <div class="form-group">
+             <input type="file" name="excel_data" id="excel_data">
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit" name="button"><span class="glyphicon glyphicon-upload"></span> Subir</button>
+            </div>
+          </form>
         </div>
 
     <div class="col-md-12">

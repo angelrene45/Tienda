@@ -1,65 +1,68 @@
 @extends('layouts.app')
 
+
 @section('principal')
 
-		<div class="text-center">
-			<div class="page-header">
+		<div class="">
+			<div class="page-header text-center">
 			  <h1 class="labeltitle2"><i class="glyphicon glyphicon-shopping-cart"></i> Detalle del producto</h1> <small>{{$producto->codigo}}</small>
 			</div>
 
 
 			<div class="row">
 			  <div class="col-md-6">
-
-			  <br><br>
-				<center>
-				@if(count($producto->imagenes)== 0)
-			    <a href="#editar"  data-toggle="modal" data-target="#editar">
-			      <img class="img-responsive" src="{{ URL::to('/') }}/images/image-unavailable.png" alt="..." width="500" height="500" class="img-rounded">
-			    </a>
-				@else
-			 	 @for ($i=0; $i<count($producto->imagenes); $i++)
-
+				  <br><br>
+					<center>
+					@if(count($producto->imagenes)== 0)
 				    <a href="#editar"  data-toggle="modal" data-target="#editar">
-				      <img class="img-responsive" src="{{ URL::to('/') }}/images/productos/{{$producto->imagenes[$i]->imagen}}" alt="..." width="500" height="500" class="img-rounded">
+				      <img class="img-responsive" src="{{ URL::to('/') }}/images/image-unavailable.png" alt="..." width="500" height="500" class="img-rounded">
 				    </a>
+					@else
+				 	 @for ($i=0; $i<count($producto->imagenes); $i++)
 
-				    @break
-				 @endfor
-				@endif
+					    <a href="#editar"  data-toggle="modal" data-target="#editar">
+									<img  class="img-responsive single__photo" src="{{ URL::to('/') }}/images/productos/{{$producto->imagenes[$i]->imagen}}" alt="...">
+					    </a>
+
+					    @break
+					 @endfor
+					@endif
+
+					 <button class="btn btn-default" type="submit" data-toggle="modal" data-target="#editar">
+	    				<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+	    		</button>
+
 				</center>
-				 <button class="btn btn-default" type="submit" data-toggle="modal" data-target="#editar">
-    			<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
-
-    			</button>
-
-
 			</div>
 
 			  <div class="col-md-6">
 
-					<h3 class="labeltitle2">{{$producto->nombre}}</h3><hr>
-					<p style=" text-align: justify; text-justify: inter-word;" class="labelstock">Descripcion: <br><br>{{ $producto->descripcion }}</p>
-					<a href="{{route('producto.pdf',['producto' => $producto->id]) }}" class="btn btn-danger">
-					 <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> PDF
-					</a>
+					<h3 class="labeltitle2 text-center">{{$producto->nombre}}</h3><hr>
+					<div class="texto-descripcion">
+						{!! $producto->descripcion !!}
+					</div>
+					<br>
+					<p class="text-center">
+						<a href="{{route('producto.pdf',['producto' => $producto->id]) }}" class="btn btn-danger">
+						 <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> PDF
+						</a>
+					</p>
 				</div>
 
 				<div class="col-md-12">
 					<hr>
 				</div>
 
-				<div class="col-md-12">
+				<div class="col-md-12 text-center">
 					<form method="POST" action="{{route('carrito.añadir' , $producto->slug)}}">
 					    {{ csrf_field() }}
 					    {{ method_field('GET') }}
 
-							<h3>
-								<span class="label label-info labelstock">Precio: ${{ number_format($producto->precio,2) }} {{$producto->moneda}}</span>
-							</h3><br>
 
-							<p>
-								<span class="labelstock">Cantidad:</span>
+							<p class="texto-precio">
+								<span class="label label-info">Precio: ${{ number_format($producto->precio,2) }} {{$producto->moneda}}</span>
+								<br><br>
+								<span>Cantidad:</span>
 								<input id="cantidad" name="cantidad" type="number" value="1" min="1" max="100"><br><br>
 								<input class="hidden" id="moneda" name="moneda" value="{{$producto->moneda}}">
 								<button type="submit" class="btn btn-default btn-add-car"><i class="glyphicon glyphicon-shopping-cart"></i> Añadir al carrito</button>
@@ -73,7 +76,7 @@
 
 			</div><hr>
 
-			<p>
+			<p class="text-center">
 				<a class="btn btn-primary" href="{{ route('producto.busqueda') }}">
 					<i class="glyphicon glyphicon-chevron-left"></i> Regresar
 				</a>

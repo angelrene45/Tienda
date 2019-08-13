@@ -4,12 +4,38 @@
   <div class="row">
    <div class="col-md-12">
 
+     @if(count($errors) > 0)
+       <div class="alert alert-danger">
+         Error en la validación del archivo
+         @foreach($errors->all() as $error)
+           <li>{{$error}}</li>
+         @endforeach
+       </div>
+     @endif
+
      <div class="panel panel-default">
        <!-- Default panel contents -->
        <div class="panel-heading">Direcciones</div>
        <div class="panel-body">
-         <a class="btn btn-primary" href="{{route('direcciones.create')}}" role="button"> <span class="glyphicon glyphicon-map-marker"></span> Nueva Direccion
-         </a>
+         <div class="col-md-6">
+           <a class="btn btn-primary" href="{{route('direcciones.create')}}" role="button"> <span class="glyphicon glyphicon-map-marker"></span> Nueva Direccion
+           </a>
+         </div>
+
+        <div class="col-md-6">
+          <form  class="form-inline" method="post" enctype="multipart/form-data" action="{{route('direcciones.importExcel')}}">
+            {{csrf_field()}}
+            <div class="form-group">
+             <input type="file" name="excel_data" id="excel_data">
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit" name="button"><span class="glyphicon glyphicon-upload"></span> Subir</button>
+            </div>
+          </form>
+        </div>
+
+
        </div>
 
        <!-- Table -->

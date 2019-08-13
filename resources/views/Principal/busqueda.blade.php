@@ -18,7 +18,6 @@
             <div class="row imgindex" >
             <div class="col-sm-12 col-md-3 col-xs-12">
 
-
                 <a href="{{route('producto.descripcion',['id' => $producto->id , 'slug' => $producto->slug])}}">
                   @if(count($producto->imagenes)==0)
                     <img class="center-block img-responsive" height="180px" width="200px" src="{{ URL::to('/') }}/images/image-unavailable.png"   alt="">
@@ -29,6 +28,7 @@
                     @endforeach
                   @endif
                 </a>
+
              </div>
 
              <div class="col-sm-12 col-md-9 col-xs-12">
@@ -79,8 +79,8 @@
 
 		<!-- Pagination -->
         <center>
-      	{{ $productos->links() }}
-    	</center>
+      	   
+    	 </center>
 
 
         <hr>

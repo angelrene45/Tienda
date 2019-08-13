@@ -16,7 +16,7 @@
 					<select class="form-control chosen-select-direccion" id="direccion" name="direccion" select="{{old ('direccion')}}" >
 							@foreach($direcciones as $direccion)
 											<option value="{{$direccion->id}}">
-													 {{$direccion->calle}}, {{$direccion->colonia}}, {{$direccion->estado}}, {{$direccion->municipio}}, {{$direccion->codigo_postal}}
+													Colonia: {{$direccion->colonia}}, Calle: {{$direccion->calle}} {{$direccion->numero_exterior}}, Estado: {{$direccion->estado}}, Municipio: {{$direccion->municipio}}, CP: {{$direccion->codigo_postal}}
 											</option>
 							@endforeach
 					</select>

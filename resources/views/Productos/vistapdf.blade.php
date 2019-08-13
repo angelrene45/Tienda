@@ -29,7 +29,7 @@
       <div class="info">
         <p align="center">Precio: ${{$producto->precio}} {{$producto->moneda}}</p>
         <p class="smalltext">
-          {{$producto->descripcion}}
+          {!! $producto->descripcion !!}
         </p>
       </div>
 

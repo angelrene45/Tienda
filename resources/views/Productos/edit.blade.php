@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{asset('trumbowyg/dist/ui/trumbowyg.min.css')}}">
+@endsection
+
   @section('content')
       <div class="row">
         <div class="col-md-12">
@@ -169,7 +173,9 @@
 
 
 @section('scripts')
-  <!--script para la animacion del select tallas-->
+        <script src="{{asset('trumbowyg/dist/trumbowyg.min.js')}}"></script>
+
+        <!--script para la animacion del select tallas-->
         <script>
         $(".chosen-select").chosen({
           placeholder_text_multiple: 'Seleccione las tallas disponibles de su producto',
@@ -179,5 +185,7 @@
         $(".chosen-select2").chosen({
           no_results_text: "Oops, no se econtro esa categoria!"
         });
+
+          $(".textarea-content").trumbowyg();
         </script>
 @endsection

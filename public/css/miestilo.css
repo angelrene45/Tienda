@@ -30,7 +30,6 @@
 
 /*es una pseudoclase*/ /*hover es cuando pasa el raton encima*/
 .imgindex:hover{
-
 	background:#FAFAFA;
 	-webkit-box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
 	-moz-box-shadow: 0px 0px 19px 3px rgba(0,0,0,0.49);
@@ -43,24 +42,36 @@
 	}
 
   .labelstock{
- 	font-weight: 0; /*en negritas*/
-  font-size:  13px; /*tamaño*/
-	width:90%;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	 	font-weight: 0; /*en negritas*/
+	  font-size:  13px; /*tamaño*/
+		width:90%;
+		font-family: Georgia, "Times New Roman", Times, serif;
  }
 
  .labeltitle{
- font-weight: 0; /*en negritas*/
- font-size:  23px; /*tamaño*/
- width:90%;
- font-family: Georgia, "Times New Roman", Times, serif;
+	 font-weight: 0; /*en negritas*/
+	 font-size:  23px; /*tamaño*/
+	 width:90%;
+	 font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .labeltitle2{
-font-weight: 0; /*en negritas*/
-font-size:  23px; /*tamaño*/
-width:100%;
-font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: 0; /*en negritas*/
+	font-size:  23px; /*tamaño*/
+	width:100%;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.texto-descripcion{
+	font-size:  17px; /*tamaño*/
+	width:100%;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.texto-precio{
+	font-size:  20px; /*tamaño*/
+	width:100%;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
  .tabla-carrito{
@@ -101,4 +112,22 @@ h1,h2,h3,h4,h5,h6
 .busqueda-producto img:hover{
 	-webkit-transform:scale(1.2); /*hace que la imagen crezca*/
 	-ms-transform:scale(1.2);
+}
+
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (min-width: 600px) {
+	.single__photo {
+		width: 100%;
+		max-width: 400px;
+		height: 260px;
+	}
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+	.single__photo {
+		width: 100%;
+		max-width: 300px;
+		height: 200px;
+	}
 }

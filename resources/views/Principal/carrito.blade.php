@@ -22,7 +22,6 @@
 					<tr>
 						<th>Imagen</th>
 						<th>Código</th>
-						<th>Descripcion</th>
 						<th>Precio</th>
 						<th>Cantidad</th>
 						<th>Subtotal</th>
@@ -41,7 +40,6 @@
 									@endif
 								</td>
 								<td>{{$item->codigo}}</td>
-								<td>{{str_limit($item->descripcion, '15')}}</td>
 								<td>${{number_format($item->precio,2)}} {{$item->moneda}}</td>
 								<td>
 									<input type="number"
@@ -89,7 +87,6 @@
 					<tr>
 						<th>Imagen</th>
 						<th>Código</th>
-						<th>Descripcion</th>
 						<th>Precio</th>
 						<th>Cantidad</th>
 						<th>Subtotal</th>
@@ -108,7 +105,6 @@
 									@endif
 								</td>
 								<td>{{$item->codigo}}</td>
-								<td>{{str_limit($item->descripcion, '15')}}</td>
 								<td>${{number_format($item->precio,2)}} {{$item->moneda}}</td>
 								<td>
 									<input type="number"

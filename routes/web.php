@@ -183,6 +183,12 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 			'uses' => 'ProductoController@destroy',
 			'as'   => 'products.destroy'
 		]);
+	Route::post('products/excel' , [
+			'uses' => 'ProductoController@importExcel',
+			'as'   => 'productos.importExcel'
+
+			]);
+
 	//Route::name('product.edit')->get('product/edit/{product}','ProductoController@edit');
 
 	//Panel de admin
@@ -206,12 +212,22 @@ Route::group(['middleware' => 'admin'],function() //RUTAS PROTEGIDAS PARA USUARI
 			'as'   => 'categorias.destroy'
 
 			]);
+	Route::post('categorias/excel' , [
+			'uses' => 'CategoriasController@importExcel',
+			'as'   => 'categorias.importExcel'
+
+			]);
 
 	//CRUD EN DIRECCIONES
 	Route::resource('direcciones','DireccionesController');
 	Route::get('direcciones/{id}/destroy' , [
 			'uses' => 'DireccionesController@destroy',
 			'as'   => 'direcciones.destroy'
+
+			]);
+	Route::post('direcciones/excel' , [
+			'uses' => 'DireccionesController@importExcel',
+			'as'   => 'direcciones.importExcel'
 
 			]);
 

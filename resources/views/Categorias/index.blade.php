@@ -9,10 +9,26 @@
       <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">Categorias</div>
+
         <div class="panel-body">
-          <a class="btn btn-primary" href="{{route('categorias.create')}}" role="button"> Nueva Categoria
-          </a>
+          <div class="col-md-6">
+            <a class="btn btn-primary" href="{{route('categorias.create')}}" role="button"> Nueva Categoria
+            </a>
+          </div>
+          <div class="col-md-6">
+            <form  class="form-inline" method="post" enctype="multipart/form-data" action="{{route('categorias.importExcel')}}">
+              {{csrf_field()}}
+              <div class="form-group">
+               <input type="file" name="excel_data" id="excel_data">
+              </div>
+
+              <div class="form-group">
+                <button class="btn btn-primary" type="submit" name="button"><span class="glyphicon glyphicon-upload"></span> Subir</button>
+              </div>
+            </form>
+          </div>
         </div>
+
 
         <!-- Table -->
 

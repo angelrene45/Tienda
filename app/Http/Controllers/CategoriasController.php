@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria;
+use Excel;
+use Illuminate\Validation\Rule;
 
 class CategoriasController extends Controller
 {
@@ -89,7 +91,7 @@ class CategoriasController extends Controller
 
         flash('La categoria ' .$categoria->nombre. ' se ha agregado satisfactoriamente')->success()->important();
         return redirect('categorias');
-  
+
     }
 
     /**
@@ -105,5 +107,36 @@ class CategoriasController extends Controller
 
         flash('Se ha eliminado la categoria '. $categoria->nombre .' satisfactoriamente!')->warning()->important();
         return redirect('categorias');
+    }
+
+    public function importExcel(Request $request){
+      $this->validate($request, [
+        'excel_data' => 'required|mimes:xls,xlsx'
+      ]);
+
+      $path = $request->file('excel_data')->getRealPath();
+
+      //Linea de validacion
+      app()->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
+
+      $data = Excel::load($path)->get();
+
+      //recorre todo el excel
+      if($data->count() > 0){
+        foreach($data->toArray() as $key => $row){
+          $categoria = new Categoria;
+          $categoria->id = $row['id']; //id en el formulario
+          $categoria->nombre = $row['nombre']; //id en el formulario
+
+          //Da de alta el producto en la base de datos
+          $categoria->save();
+        }
+
+        //insertar en la base de datos
+        flash('Categorias agregados corectamente! ')->success()->important();
+        return redirect('products.index');
+
+
+      }
     }
 }

@@ -14,15 +14,15 @@
         <div class="panel panel-default">
           <div class="panel-body center-block">
 
-            <form class="form-horizontal" action="{{route('producto.busqueda')}}" method="GET" role="form" autocomplete="off" enctype="multipart/form-data">
-              {{csrf_field()}}
+            <form class="form-horizontal" action="{{route('producto.busqueda')}}" method="GET">
               <div class="form-group">
                 <label class="control-label col-sm-offset-2 col-sm-2" for="email">Buscar por:</label>
                 <div class="col-sm-4">
                   <select class="form-control select-search" id="Filtro" name="Filtro">
-                      <option value="codigo">codigo</option>
-                      <option value="nombre">nombre</option>
-                      <option value="categoria">categoria</option>
+                      <option value="todo">Todos los productos</option>
+                      <option value="codigo">Codigo</option>
+                      <option value="nombre">Nombre</option>
+                      <option value="categoria">Categoria</option>
                   </select>
                 </div>
               </div>
@@ -36,7 +36,7 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group input-text">
+              <div class="form-group input-text hidden">
                 <label class="control-label col-sm-offset-2 col-sm-2" for="pwd">Texto:</label>
                 <div class="col-sm-4">
                   <input type="text" class="form-control" id="Texto" name="Texto">
@@ -51,9 +51,6 @@
 
           </div>
         </div>
-
-
-
 
 @endsection
 
@@ -71,6 +68,9 @@
           if(this.value == "categoria"){
             $(".select-categoria").removeClass("hidden");
             $(".input-text").addClass("hidden");
+          }else if(this.value == "todo"){
+              $(".input-text").addClass("hidden");
+              $(".select-categoria").addClass("hidden");
           }else{
             $(".select-categoria").addClass("hidden");
             $(".input-text").removeClass("hidden");

@@ -15,12 +15,12 @@
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Plugins chosen para estilos en inputs -->
-    <link rel="stylesheet" href="{{ asset('plugins/chosen/chosen.css')}} " >
+    <link rel="stylesheet" href="{{ asset('plugins/chosen/chosen.css') }}" >
 
-    <link rel="stylesheet" href="{{ asset('css/miestilo.css')}} " >
+    <link rel="stylesheet" href="{{ asset('css/miestilo.css') }}" >
     <!-- Custom styles for this template -->
     <!-- <link href="starter-template.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="{{ asset('css/sidebar.css')}} " >
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}" >
 
     @yield('css')
 

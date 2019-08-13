@@ -35,6 +35,7 @@ class InicioController extends Controller
     	$producto->categoria;
 			$producto->tallas;
 
+
     	return view('Principal.detalle')->with(['producto' => $producto]);
     }
 
@@ -66,16 +67,35 @@ class InicioController extends Controller
         	$texto = $request->Texto;
         	$categoriaid = $request->Categoria;
 
+					if($filtro == "todo"){
+						$productos = Producto::get();
 
-
-					if($texto == NULL){ //BUSCAMOS POR CATEGORIA
-						$productos = Producto::where('categoria_id','=',$categoriaid)->paginate(9);
+						//dd($productos);
 						//$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
 						//dd($productos);
 						$productos->each(function($productos){
 								$productos->categoria;
 								$productos->imagenes;
 						});
+
+						return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $categoriaid] );
+					}
+
+
+
+					if($texto == NULL){ //BUSCAMOS POR CATEGORIA
+						$productos = Producto::where('categoria_id','=',$categoriaid)->get();
+
+						//dd($productos);
+						//$productos = DB::table('productos')->where($filtro,'like','%'.$texto.'%')->paginate(9);
+						//dd($productos);
+						$productos->each(function($productos){
+								$productos->categoria;
+								$productos->imagenes;
+						});
+
+
+
 						return view('Principal.busqueda')->with(['productos' => $productos , 'palabra' => $categoriaid] );
 
 					}else{ //buscamos por filtro y texto

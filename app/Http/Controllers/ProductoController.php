@@ -10,7 +10,9 @@ use App\Talla;
 use App\Imagen;
 use Laracasts\Flash\Flash;
 use PDF;
+use Excel;
 use DB;
+use Carbon\Carbon;
 use File;
 use Illuminate\Validation\Rule;
 
@@ -265,5 +267,51 @@ class ProductoController extends Controller
 
 
         return redirect()->route('products.edit', [$id]);
+    }
+
+    public function importExcel(Request $request){
+      $this->validate($request, [
+        'excel_data' => 'required|mimes:xls,xlsx'
+      ]);
+
+      $path = $request->file('excel_data')->getRealPath();
+
+      //Linea de validacion
+      app()->bind('Illuminate\Contracts\Bus\Dispatcher', 'Illuminate\Bus\Dispatcher');
+
+      $data = Excel::load($path)->get();
+
+      //recorre todo el excel
+      if($data->count() > 0){
+        foreach($data->toArray() as $key => $row){
+          $producto = new Producto;
+          $producto->id = $row['id']; //id en el formulario
+          $producto->codigo = $row['codigo']; //id en el formulario
+          $producto->nombre = $row['nombre']; //id en el formulario
+          $producto->descripcion = $row['descripcion'];
+          $producto->precio = $row['precio'];
+          $producto->moneda = $row['moneda'];
+          $producto->categoria_id = $row['categoria_id'];
+          $producto->stock = $row['stock'];
+
+          //Da de alta el producto en la base de datos
+          $producto->save();
+
+          if($row['imagen'] != ""){
+            $imagen = new Imagen;
+            $imagen->producto_id = $row['id'];
+            $imagen->imagen = $row['imagen'];
+            $imagen->save();
+          }
+
+
+        }
+
+        //insertar en la base de datos
+        flash('Productos agregados corectamente! ')->success()->important();
+        return redirect()->route('products.index');
+
+
+      }
     }
 }
